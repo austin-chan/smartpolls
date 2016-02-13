@@ -1,1 +1,2 @@
-Smartpolls
+# [Smartpolls](http://smartpolls.co/)
+
