@@ -74,7 +74,7 @@ Another option for the product is to have a more customized polling system, like
 
 ## Conclusion
 
-The "simple" product concept seems to be the better option. Without the extra, redundant specificity of the polls, Smartpolls becomes less of a "live quiz" application and more of a "poll session" application. The added level of indirection allows the system to be used easily in a much wider variety of scenarios - not just in the classroom, but also in college organization voting, or gauging a large group's general consensus during a convention.
+The "simple" product concept seems to be the better option. Without the extra, redundant specificity of the polls, Smartpolls becomes less of a "live quiz" application and more of a "poll session" application. The added level of indirection allows the system to be used easily in a much wider variety of scenarios - not just in the classroom, but also in college organization voting, or gauging a large group's general consensus during a convention. It requires much less work on the poll creators part and will be a lot faster to make.
 
 
 
