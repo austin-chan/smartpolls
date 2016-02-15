@@ -1,5 +1,5 @@
 # [Smartpolls](http://smartpolls.co/)
 
-[Initial Design Case Study](./CASESTUDY.md)
+[Initial Design Case Study](./design/study/CASESTUDY.md)
 
-[First Design Spec](./FIRSTSPEC.md)
+[First Design Spec](./design/study/FIRSTSPEC.md)

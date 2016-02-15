@@ -4,7 +4,7 @@ After discussion, the "simple" concept discussed in the [initial case study](./C
 
 ## Run 1
 
-![Design](./docimages/spec_1_1.png)
+![Design](../docimages/spec_1_1.png)
 
 - Mocks 1 and 2 show the initial structure for the voting experience, one with an option selected.
 - Mocks 6 and 7 show an alternate structure with the text centered.
@@ -14,7 +14,7 @@ Ultimately, Mock 9 was chosen to continue designing upon, because it visually ma
 
 ## Run 2
 
-![Design](./docimages/spec_1_2.png)
+![Design](../docimages/spec_1_2.png)
 
 It's possible to display the percentage number in text on each button, but it's more expressive to utilize the screen area to represent the percentage.
 
@@ -23,4 +23,4 @@ It's possible to display the percentage number in text on each button, but it's 
 - Mock 3 adds the use of color.
 - Mock 4 adds the poll information.
 
-Mock 4 works great, and will be carried through to the next runs.
+Mock 4 works great, and will be carried through to the next specs.
