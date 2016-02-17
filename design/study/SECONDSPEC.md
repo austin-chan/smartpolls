@@ -17,7 +17,7 @@ After mocking up the voting experience in [the first design spec](./FIRSTSPEC.md
     - Easy to remember.
     - The code is much longer, meaning there are more characters to type.
 
-On first judgement, option 3 seems the best. This can be revisited later, but option 3 provides codes that are significantly easier to remember. You can hear see the code once and be able to type the whole thing without a problem. You can even hear the code once and type in the code without any problem. To prevent the codes from becoming too long, we can restrict by a maximum number of letters or number of syllables.
+On first judgement, option 3 seems the best. This can be revisited later, but option 3 provides codes that are significantly easier to remember. You can see the code once and be able to type the whole thing without a problem. You can even hear the code once and type in the code without any problem. To prevent the codes from becoming too long, we can restrict by a maximum number of letters or number of syllables.
 
 ##### There are a few different ways to handle poll identifiers:
 
