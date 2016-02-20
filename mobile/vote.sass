@@ -1,0 +1,116 @@
+
+$logo-height: 51px
+
+*
+    margin: 0
+    border: none
+    padding: 0
+
+body
+    background: #ECEBEB
+    font-family: HelveticaNeue
+
+.logo
+    height: $logo-height
+
+    .logo-box
+        display: inline-block
+        width: $logo-height
+        height: $logo-height
+        background: #fff
+
+    .logo-text-container
+        display: inline-block
+        width: $logo-height
+        height: $logo-height
+
+        .logo-text
+            height: 51px
+            width: 51px
+            float: right
+            
+            .logo-text-inner
+                padding-left: 20px
+                height: 51px
+                transform: translateY(5px) // hacked; stupid box model
+                font-size: 34px
+                color: #FFFFFF
+                line-height: 40px
+                text-align: center
+
+header
+    width: 100%
+    border: none
+    height: 88px
+    background-image: linear-gradient(-180deg, #B93A57 0%, #972538 100%)
+    box-shadow: inset 0px -1px 3px 0px rgba(76, 76, 76, 0.50)
+
+    & > div
+        margin: auto
+        width: 225px
+        position: relative
+        top: 50%
+        transform: translateY(-50%)
+
+.annoucement
+    margin: 35px 35px 75px 35px
+    padding: 55px
+    background: #FBFBFB
+    border: 1px solid #CFCFCF
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.20)
+    border-radius: 7px
+    font-size: 45px
+    color: #656565
+    line-height: 53px
+    text-align: center
+
+    .annoucement-subtext
+        font-size: 26px
+        color: #989898
+        line-height: 30px
+
+.candidate
+    margin: 23px 35px 23px 35px
+    height: 80px
+    background-image: linear-gradient(-180deg, #FDFDFD 0%, #EDEDED 100%)
+    border: 1px solid #E0E0E0
+    box-shadow: 0px 0px 2px 0px #A7A7A7
+    border-radius: 7px
+    vertical-align: middle
+
+    &:active, &.active
+        border: 1px solid #B9B9B9
+        background-image: linear-gradient(-180deg, #DCDCDC 0%, #D4D4D4 100%)
+        box-shadow: 0px 0px 2px 0px #A7A7A7, inset 0px 3px 6px 0px rgba(163,163,163,0.67)
+        border-radius: 7px
+
+    .candidate-name
+        position: absolute
+        display: inline-block
+        height: 100%
+        margin-left: 36px
+        line-height: 80px
+        font-size: 39px
+        color: #717171
+
+    .condidate-votes-container
+        display: inline-block
+        width: 100%
+
+        .candidate-votes
+            width: 100px
+            margin: auto
+            height: 80px
+            line-height: 80px
+            font-size: 24px
+            color: #929292
+
+    .candidate-progress-bar
+        border-radius: 7px 0 0 7px
+        position: absolute
+        height: 80px
+        background: rgba(255,107,129,0.12)
+        box-shadow: 0px 0px 2px 0px rgba(163,30,52,0.36)
+
+
+
