@@ -1,6 +1,18 @@
 
 $logo-height: 51px
 
+@mixin unselectable
+    /* Chrome/Safari */        
+    -webkit-user-select: none
+    /* Firefox */
+    -moz-user-select: none
+    /* IE10+ */
+    -ms-user-select: none
+
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none
+    user-select: none
+
 *
     margin: 0
     border: none
@@ -11,6 +23,7 @@ body
     font-family: HelveticaNeue
 
 .logo
+    @include unselectable
     height: $logo-height
 
     .logo-box
@@ -77,6 +90,8 @@ header
     box-shadow: 0px 0px 2px 0px #A7A7A7
     border-radius: 7px
     vertical-align: middle
+    @include unselectable
+    cursor: pointer
 
     &:active, &.active
         border: 1px solid #B9B9B9
