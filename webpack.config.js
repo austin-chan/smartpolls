@@ -1,7 +1,7 @@
 var path = require("path");
 
 module.exports = {
-    entry: './entry.js',
+    entry: './app.js',
     output: {
         filename: 'bundle.js', //this is the default name, so you can skip it
         //at this directory our bundle file will be available
