@@ -2,7 +2,31 @@ import React, { Component, PropTypes } from 'react';
 import '../styles/_VotingPage.scss';
 
 export default class VotingPage extends Component {
+  componentWillMount() {
+    console.log('hi');
+  }
+
+  renderButtonForOption(option) {
+    const label = ['A', 'B', 'C', 'D', 'E'][option];
+
+    return (
+      <div className="candidate active" key={option}>
+        <div className="candidate-name">{label}</div>
+        <div className="candidate-progress-bar"></div>
+        <div className="condidate-votes-container">
+          <div className="candidate-votes">1 vote</div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
+    const buttonNodes = [];
+
+    for (let b = 0; b < 5; b++) {
+      buttonNodes.push(this.renderButtonForOption(b));
+    }
+
     return (
       <div id="VotingPage">
         <header>
@@ -23,43 +47,7 @@ export default class VotingPage extends Component {
             </div>
           </div>
         </div>
-
-        <div className="candidate active">
-          <div className="candidate-name">A</div>
-          <div className="candidate-progress-bar"></div>
-          <div className="condidate-votes-container">
-            <div className="candidate-votes">1 vote</div>
-          </div>
-        </div>
-
-        <div className="candidate">
-          <div className="candidate-name">B</div>
-          <div className="candidate-progress-bar"></div>
-          <div className="condidate-votes-container">
-            <div className="candidate-votes">5 votes</div>
-          </div>
-        </div>
-
-        <div className="candidate">
-          <div className="candidate-name">C</div>
-          <div className="condidate-votes-container">
-            <div className="candidate-votes">0 votes</div>
-          </div>
-        </div>
-
-        <div className="candidate">
-          <div className="candidate-name">D</div>
-          <div className="condidate-votes-container">
-            <div className="candidate-votes">0 votes</div>
-          </div>
-        </div>
-
-        <div className="candidate">
-          <div className="candidate-name">E</div>
-          <div className="condidate-votes-container">
-            <div className="candidate-votes">0 votes</div>
-          </div>
-        </div>
+        {buttonNodes}
       </div>
     );
   }
