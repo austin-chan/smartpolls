@@ -4,7 +4,8 @@
   "description": "Live polls made fast and simple.",
   "main": "run.js",
   "scripts": {
-    "dev": "webpack-dev-server --progress  --inline --hot --colors --port 8090",
+    "dev": "webpack-dev-server --progress --inline --hot --colors --port 8090",
+    "start": "http-server -o -p 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,10 +36,14 @@
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "node-sass": "^3.4.2",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-router": "^2.0.0",
-    "webpack": "^1.12.13",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
   }
 }
