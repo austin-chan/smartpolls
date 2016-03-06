@@ -1,5 +1,5 @@
 import Firebase from 'firebase';
-console.log('i');
+import namer from './namer';
 
 const baseRef = new Firebase('https://smartpolls.firebaseio.com/base/');
 
@@ -32,10 +32,10 @@ const login = (email, password) => {
 
 const newPoll = () => {
   const pollRef = baseRef.child('polls').push();
+  const key = namer();
 
   pollRef.update({
-    key: 'yo',
-    jo: 'yo',
+    key
   });
 
   console.log('hi');
