@@ -12,50 +12,35 @@ $logo-height: 51px;
     user-select: none;
 }
 
-.logo {
-    @include unselectable;
-    height: $logo-height;
-    .logo-box {
-        display: inline-block;
-        width: $logo-height;
-        height: $logo-height;
-        background: white;
-    }
-    .logo-text-container {
-        display: inline-block;
-        width: $logo-height;
-        height: $logo-height;
-        .logo-text {
-            height: 51px;
-            width: 51px;
-            float: right;
-            .logo-text-inner {
-                padding-left: 20px;
-                height: 51px;
-                transform: translateY(5px);
-                font-size: 34px;
-                color: white;
-                line-height: 40px;
-                text-align: center;
-            }
-        }
-    }
-}
-
-header {
-    width: 100%;
-    border: none;
-    height: 88px;
-    background-image: linear-gradient(-180deg, #b93a57 0%, #972538 100%);
-    box-shadow: inset 0px -1px 3px 0px rgba(76, 76, 76, 0.5);
-    & > div {
-        margin: auto;
-        width: 225px;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-}
+// .logo {
+//     @include unselectable;
+//     height: $logo-height;
+//     .logo-box {
+//         display: inline-block;
+//         width: $logo-height;
+//         height: $logo-height;
+//         background: white;
+//     }
+//     .logo-text-container {
+//         display: inline-block;
+//         width: $logo-height;
+//         height: $logo-height;
+//         .logo-text {
+//             height: 51px;
+//             width: 51px;
+//             float: right;
+//             .logo-text-inner {
+//                 padding-left: 20px;
+//                 height: 51px;
+//                 transform: translateY(5px);
+//                 font-size: 34px;
+//                 color: white;
+//                 line-height: 40px;
+//                 text-align: center;
+//             }
+//         }
+//     }
+// }
 
 .annoucement {
     margin: 35px 35px 75px 35px;
