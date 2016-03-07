@@ -1,5 +1,9 @@
 #SessionPage {
 
+    .card {
+        margin-bottom: 15px;
+    }
+
     .session-info-card {
         font-size: 0;
         height: 150px;
@@ -143,5 +147,10 @@
         .Poll {
             margin-top: 22px;
         }
+    }
+
+    #new-poll-card {
+        padding: 30px 0px;
+        text-align: center;
     }
 }

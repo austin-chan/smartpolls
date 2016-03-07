@@ -7,7 +7,7 @@ export default class SessionPage extends Component {
 
   render() {
     return (
-      <div className="Poll clearfix">
+      <div className="Poll">
         <div className="choice-labels">
           <div className="choice-label">
             <span className="vertical-aligner"></span>
@@ -48,14 +48,29 @@ export default class SessionPage extends Component {
               </div>
             </div>
             <div className="graph-bar-wrap">
+              <span className="vertical-aligner"></span>
               <div className="graph-bar">
                 <span className="percentage">67%</span>
                 <span className="count">2 votes</span>
               </div>
             </div>
-
+            <div className="graph-bar-wrap">
+              <span className="vertical-aligner"></span>
+              <div className="graph-bar">
+                <span className="percentage">67%</span>
+                <span className="count">2 votes</span>
+              </div>
+            </div>
+            <div className="graph-bar-wrap">
+              <span className="vertical-aligner"></span>
+              <div className="graph-bar">
+                <span className="percentage">67%</span>
+                <span className="count">2 votes</span>
+              </div>
+            </div>
           </div>
         </div>
+        <div className="total-votes">3 votes</div>
       </div>
     );
   }

@@ -11,6 +11,11 @@
             font-size: 27px;
             color: #717171;
         }
+
+        .choice-label-text {
+            padding-top: 7px;
+            display: inline-block;
+        }
     }
 
     .baseline {
@@ -62,5 +67,13 @@
                 }
             }
         }
+    }
+
+    .total-votes {
+        position: absolute;
+        bottom: -9px;
+        right: -9px;
+        font-size: 13px;
+        color: #AFAFAF;
     }
 }

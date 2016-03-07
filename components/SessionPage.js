@@ -53,6 +53,9 @@ export default class SessionPage extends Component {
           </div>
           <Poll />
         </div>
+        <div id="new-poll-card" className="card container">
+          <div className="standard-button large button">Activate New Poll</div>
+        </div>
       </div>
     );
   }
