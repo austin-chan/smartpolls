@@ -1,0 +1,66 @@
+.Poll {
+    position: relative;
+
+    .choice-labels {
+        float: left;
+        padding: 6px 0px;
+
+        .choice-label {
+            display: block;
+            height: 40px;
+            font-size: 27px;
+            color: #717171;
+        }
+    }
+
+    .baseline {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 38px;
+        background: #DCDCDC;
+        width: 1px;
+    }
+
+    .graph {
+        margin-left: 39px;
+        padding: 6px 0px;
+
+        .graph-bars {
+
+            .graph-bar-wrap {
+                height: 40px;
+            }
+
+            .graph-bar {
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                height: 29px;
+                width: 67%;
+                background-image: linear-gradient(-180deg, #B93A57 0%, #972538 100%);
+                box-shadow: inset 0px -1px 3px 0px rgba(76,76,76,0.50);
+                border-radius: 0 5px 5px 0;
+
+                .percentage {
+                    font-size: 11px;
+                    color: #FFFFFF;
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                }
+
+                .count {
+                    font-size: 15px;
+                    color: #717171;
+                    position: absolute;
+                    left: 100%;
+                    display: block;
+                    margin-left: 10px;
+                    white-space: nowrap;
+                    top: 7px;
+                }
+            }
+        }
+    }
+}
