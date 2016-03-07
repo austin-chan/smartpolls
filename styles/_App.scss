@@ -1,11 +1,82 @@
 @import 'include/reset';
 @import 'include/fonts';
-@import 'include/base';
-
-html {
-
-}
+@import "include/responsive";
 
 body {
     font-family: 'bunt';
+    letter-spacing: .03em;
+    background: #EEEEEE;
+    height: 100%;
+}
+
+#App {
+    min-height: 100%;
+    position: relative;
+
+    .page-content {
+        padding-bottom: 20px;
+        padding-top: 64px;
+
+        @include media("<=phone") {
+            padding-top: 88px;
+        }
+    }
+
+    > footer {
+        width: 100%;
+        height: 20px;
+        text-align: center;
+        position: absolute;
+        padding-bottom: 5px;
+        font-size: 14px;
+        bottom: 0;
+        left: 0;
+        color: #BDBDBD;
+    }
+}
+
+.card {
+    background: #FBFBFB;
+    border: 1px solid #CFCFCF;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.20);
+    border-radius: 7px;
+}
+
+.container {
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+.vertical-aligner {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.clear-button {
+    position: relative;
+    font-size: 16px;
+    color: #FFFFFF;
+    border-radius: 5px;
+    padding: 10px 16px;
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.21);
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(-180deg, #EDEDED 0%, rgba(214,214,214,0.07) 100%);
+        border-radius: 5px;
+        opacity: .24;
+    }
+}
+
+.link-button {
+    font-size: 16px;
+    color: white;
 }

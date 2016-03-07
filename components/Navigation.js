@@ -17,7 +17,10 @@ export default class Navigation extends Component {
             </div>
           </div>
           <div className="right-side">
-            <div className="clear-button">New Poll Session</div>
+            <span className="vertical-aligner" />
+            <div className="link-button button">My Sessions</div>
+            <div className="link-button button">My Sessions</div>
+            <div className="clear-button button">New Poll Session</div>
           </div>
         </div>
       </div>

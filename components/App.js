@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Navigation from './Navigation';
 import '../styles/_App.scss';
 
 export default class App extends Component {
@@ -9,7 +10,11 @@ export default class App extends Component {
   render() {
     return (
       <div id="App">
-        {this.props.children}
+        <Navigation />
+        <div className="page-content">
+          {this.props.children}
+        </div>
+        <footer>Copyright © 2016 SmartPolls. All rights reserved.</footer>
       </div>
     );
   }
