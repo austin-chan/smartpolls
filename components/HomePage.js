@@ -27,7 +27,7 @@ export default class VotingPage extends Component {
         <div className="join-card card container">
           <h5 className="card-header">Join a Poll</h5>
           <div className="input-group">
-            <input type="text" className="session-code-input" placeholder="Enter Poll Session Code"/>
+            <input type="text" className="standard-input session-code-input" placeholder="Enter Poll Session Code"/>
             <div className="standard-button button large join-button">Join</div>
           </div>
           <div className="not-found">
