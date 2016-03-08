@@ -1,0 +1,25 @@
+$iosEasing: cubic-bezier(.23, 1, .32, 1);
+$iosEasingTwo: cubic-bezier(.10, .70, .10, 1);
+
+@mixin placeholder {
+    &.placeholder { @content }
+    &:-moz-placeholder { @content }
+    &::-webkit-input-placeholder { @content }
+}
+
+@mixin no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@mixin transition($args...) {
+    -webkit-transition: $args;
+    -moz-transition: $args;
+    -ms-transition: $args;
+    -o-transition: $args;
+    transition: $args;
+}
