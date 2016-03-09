@@ -1,13 +1,29 @@
 import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
+import { connect } from 'react-redux';
+import { hideLogin } from '../actions/userActions';
 import '../styles/_Login.scss';
 
-export default class Login extends Component {
+class Login extends Component {
+  static propTypes = {
+    style: PropTypes.object.isRequired,
+    hideLogin: PropTypes.func.isRequired,
+  }
+
   componentWillMount() {
   }
 
+  onClick(e) {
+    // clicked on background area
+    if (findDOMNode(this) === e.target) this.props.hideLogin();
+  }
+
   render() {
+    // const rootClass = this.props.user.showLogin ? 'show' : '';
+    const rootClass = '';
+
     return (
-      <div id="Login">
+      <div id="Login" className={rootClass} style={this.props.style} onClick={this.onClick.bind(this)}>
         <span className="vertical-aligner" />
         <div className="wrap">
           <h4>Signup for Smartpolls</h4>
@@ -31,3 +47,11 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    hideLogin: () => (dispatch(hideLogin())),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

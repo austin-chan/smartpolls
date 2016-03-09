@@ -1,13 +1,22 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { showLogin } from '../actions/userActions';
 import Poll from './Poll';
 import '../styles/_HomePage.scss';
 
-export default class VotingPage extends Component {
+class VotingPage extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+  };
+
   componentWillMount() {
   }
 
-  render() {
+  onSignupClick() {
+    this.props.dispatch(showLogin());
+  }
 
+  render() {
     return (
       <div id="HomePage">
         <div className="hero-card card container clearfix">
@@ -18,7 +27,7 @@ export default class VotingPage extends Component {
             <p className="second-tagline">
               No Frills, Just Thrills.<br/>All for Free.
             </p>
-            <div className="standard-button button large signup-button">Signup for Smartpolls</div>
+            <div className="standard-button button large signup-button" onClick={this.onSignupClick.bind(this)}>Signup for Smartpolls</div>
           </div>
           <div className="right-side">
             <Poll />
@@ -39,3 +48,5 @@ export default class VotingPage extends Component {
     );
   }
 }
+
+export default connect()(VotingPage);
