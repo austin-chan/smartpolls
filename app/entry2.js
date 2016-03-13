@@ -41,4 +41,5 @@ const newPoll = () => {
   console.log('hi');
 };
 
-newUser('auscwork@gmail.com', 'dudeman1');
+login('auscwork@gmail.com', 'testing');
+// newUser('auscwork@gmail.com', 'dudeman1');

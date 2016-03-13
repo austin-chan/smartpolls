@@ -8,19 +8,37 @@ import '../styles/_App.scss';
 class App extends Component {
   static propTypes = {
     children: PropTypes.node,
-    showLogin: PropTypes.bool.isRequired,
+    showModal: PropTypes.bool.isRequired,
   };
 
   componentWillMount() {
     console.log(this.props);
   }
 
-  render() {
-    const loginStyles = this.props.showLogin ? [{
+  onRest() {
+    console.log('here');
+  }
+
+  renderLogin() {
+    const loginStyles = this.props.showModal ? [{
       key: 'login',
       style: { opacity: spring(1, presets.stiff) },
     }] : [];
 
+    return (
+      <TransitionMotion willEnter={this.willEnter} willLeave={this.willLeave} onRest={this.onRest} styles={loginStyles}>
+        {interStyles =>
+          <div>
+            {interStyles.map(({ key, style }) => {
+              return (<Login key={key} style={{ opacity: style.opacity }} />);
+            })}
+          </div>
+        }
+      </TransitionMotion>
+    );
+  }
+
+  render() {
     return (
       <div id="App">
         <Navigation />
@@ -28,15 +46,7 @@ class App extends Component {
           {this.props.children}
         </div>
         <footer>Copyright © 2016 SmartPolls. All rights reserved.</footer>
-        <TransitionMotion willEnter={this.willEnter} willLeave={this.willLeave} styles={loginStyles}>
-          {interStyles =>
-            <div>
-              {interStyles.map(({ key, style }) => {
-                return (<Login key={key} style={{ opacity: style.opacity }} />);
-              })}
-            </div>
-          }
-        </TransitionMotion>
+        {this.renderLogin()}
       </div>
     );
   }
@@ -52,7 +62,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    showLogin: state.user.showLogin,
+    showModal: state.user.showModal,
   };
 };
 

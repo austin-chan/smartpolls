@@ -1,19 +1,31 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { showLogin } from '../actions/userActions';
+import { showModal } from '../actions/userActions';
 import Poll from './Poll';
 import '../styles/_HomePage.scss';
 
 class VotingPage extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    isUser: PropTypes.bool.isRequired,
   };
 
   componentWillMount() {
   }
 
   onSignupClick() {
-    this.props.dispatch(showLogin());
+    this.props.dispatch(showModal());
+  }
+
+  onNewPoll() {
+
+  }
+
+  // render new poll button for users, signup button for guests
+  renderActionButton() {
+    return this.props.isUser ?
+      (<div className="standard-button button large signup-button" onClick={this.onNewPoll.bind(this)}>Create a New Poll</div>) :
+      (<div className="standard-button button large signup-button" onClick={this.onSignupClick.bind(this)}>Signup for Smartpolls</div>);
   }
 
   render() {
@@ -27,7 +39,7 @@ class VotingPage extends Component {
             <p className="second-tagline">
               No Frills, Just Thrills.<br/>All for Free.
             </p>
-            <div className="standard-button button large signup-button" onClick={this.onSignupClick.bind(this)}>Signup for Smartpolls</div>
+            {this.renderActionButton()}
           </div>
           <div className="right-side">
             <Poll />
@@ -49,4 +61,10 @@ class VotingPage extends Component {
   }
 }
 
-export default connect()(VotingPage);
+const mapStateToProps = (state) => {
+  return {
+    isUser: state.user.isUser,
+  };
+};
+
+export default connect(mapStateToProps)(VotingPage);

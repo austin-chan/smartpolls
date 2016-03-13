@@ -1,23 +1,31 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { showLogin } from '../actions/userActions';
+import { showModal, logout } from '../actions/userActions';
 import '../styles/_Navigation.scss';
 
 class Navigation extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    onShowLogin: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     console.log(this.props);
   }
 
+  onLogout() {
+    this.props.dispatch(logout());
+  }
+
+  onShowModal() {
+    this.props.dispatch(showModal());
+  }
+
   renderNonUserButtons() {
     return (
       <div className="button-list">
-        <div className="clear-button button" onClick={this.props.onShowLogin}>Login/Signup</div>
+        <div className="clear-button button" onClick={this.onShowModal.bind(this)}>Login/Signup</div>
       </div>
     );
   }
@@ -25,7 +33,8 @@ class Navigation extends Component {
   renderUserButtons() {
     return (
       <div className="button-list">
-        <div className="link-button button">My Sessions</div>
+        <div className="link-button button" onClick={this.onLogout.bind(this)}>Logout</div>
+        <div className="link-button button">My Account</div>
         <div className="link-button button">My Sessions</div>
         <div className="clear-button button">New Poll Session</div>
       </div>
@@ -63,10 +72,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onShowLogin: () => (dispatch(showLogin())),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
+export default connect(mapStateToProps)(Navigation);

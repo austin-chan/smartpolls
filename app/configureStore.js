@@ -1,13 +1,14 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './reducers';
 
-export default function configureStore(initialState) {
+export default function configureStore(browserHistory) {
   const store = createStore(
     rootReducer,
-    initialState,
+    {},
     compose(
-      applyMiddleware(thunkMiddleware),
+      applyMiddleware(thunkMiddleware, routerMiddleware(browserHistory)),
       // enable Redux Chrome DevTools
       window.devToolsExtension ? window.devToolsExtension() : f => f,
     ),
