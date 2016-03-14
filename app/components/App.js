@@ -3,20 +3,19 @@ import { connect } from 'react-redux';
 import { TransitionMotion, spring, presets } from 'react-motion';
 import Navigation from './Navigation';
 import Login from './Login';
+import { resetPolls } from '../actions/pollActions';
 import '../styles/_App.scss';
 
 class App extends Component {
   static propTypes = {
     children: PropTypes.node,
     showModal: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
-    console.log(this.props);
-  }
-
-  onRest() {
-    console.log('here');
+    // console.log(this.props.dispatch);
+    this.props.dispatch(resetPolls());
   }
 
   renderLogin() {
@@ -26,7 +25,7 @@ class App extends Component {
     }] : [];
 
     return (
-      <TransitionMotion willEnter={this.willEnter} willLeave={this.willLeave} onRest={this.onRest} styles={loginStyles}>
+      <TransitionMotion willEnter={this.willEnter} willLeave={this.willLeave} styles={loginStyles}>
         {interStyles =>
           <div>
             {interStyles.map(({ key, style }) => {

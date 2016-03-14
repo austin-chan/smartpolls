@@ -3,7 +3,6 @@ import '../styles/_VotingPage.scss';
 
 export default class VotingPage extends Component {
   componentWillMount() {
-    console.log('hi');
   }
 
   renderButtonForOption(option) {

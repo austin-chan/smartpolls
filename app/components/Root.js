@@ -6,6 +6,7 @@ import configureStore from '../configureStore';
 import App from './App';
 import VotingPage from './VotingPage';
 import SessionPage from './SessionPage';
+import NoMatch from './NoMatch';
 import HomePage from './HomePage';
 
 const store = configureStore(browserHistory);
@@ -20,6 +21,7 @@ export default class Root extends Component {
             <IndexRoute component={HomePage} />
             <Route path="v/:pollId" component={VotingPage} />
             <Route path="s/:pollId" component={SessionPage} />
+            <Route path="*" component={NoMatch}/>
           </Route>
         </Router>
       </Provider>

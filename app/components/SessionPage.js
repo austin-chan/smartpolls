@@ -1,13 +1,44 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Poll from './Poll';
 import '../styles/_SessionPage.scss';
 
 export default class SessionPage extends Component {
+  static propTypes = {
+    params: PropTypes.object.isRequired,
+    polls: PropTypes.object.isRequired,
+    awaitingPayload: PropTypes.bool.isRequired,
+  };
+
   componentWillMount() {
-    console.log('hi');
+  }
+
+  renderLoading() {
+    return (
+      <div>
+        Loading
+      </div>
+    );
+  }
+
+  renderNotFound() {
+    return (
+      <div>
+        Not Found
+      </div>
+    );
   }
 
   render() {
+    // render loading page
+    if (this.props.awaitingPayload) return this.renderLoading();
+
+    // render no found poll page
+    if (!this.isPollValid()) return this.renderNotFound();
+
+    const poll = this.getPoll();
+    const pollKey = poll.pollKey;
+
     return (
       <div id="SessionPage">
         <div className="session-info-card card container">
@@ -15,7 +46,7 @@ export default class SessionPage extends Component {
             <span className="vertical-aligner"></span>
             <div className="wrap">
               <h5>Poll Session Code</h5>
-              <p className="session-code">exotic-moon</p>
+              <p className="session-code">{pollKey}</p>
               <div className="button standard-button">Change Session Code</div>
             </div>
           </div>
@@ -25,7 +56,7 @@ export default class SessionPage extends Component {
               <h5>To join the polling session:</h5>
               <div className="steps">
                 <p className="step">1. Navigate to smartpolls.co</p>
-                <p className="step">2. Enter code exotic-moon</p>
+                <p className="step">2. Enter code {pollKey}</p>
               </div>
             </div>
           </div>
@@ -59,4 +90,21 @@ export default class SessionPage extends Component {
       </div>
     );
   }
+
+  getPoll() {
+    return this.props.polls[this.props.params.pollId];
+  }
+
+  isPollValid() {
+    return !!this.getPoll();
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    polls: state.poll.polls,
+    awaitingPayload: state.poll.awaitingPayload,
+  };
+};
+
+export default connect(mapStateToProps)(SessionPage);

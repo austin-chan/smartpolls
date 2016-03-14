@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { showModal } from '../actions/userActions';
+import { newPoll } from '../actions/pollActions';
 import Poll from './Poll';
 import '../styles/_HomePage.scss';
 
@@ -18,7 +19,7 @@ class VotingPage extends Component {
   }
 
   onNewPoll() {
-
+    this.props.dispatch(newPoll());
   }
 
   // render new poll button for users, signup button for guests

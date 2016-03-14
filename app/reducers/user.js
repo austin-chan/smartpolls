@@ -7,6 +7,7 @@ const initialState = {
   showSignup: false,
   showModal: false,
   error: null,
+  uid: baseRef.getAuth() !== null ? baseRef.getAuth().uid : null,
   awaitingAuthResponse: false,
 };
 
@@ -46,11 +47,13 @@ const user = (state = initialState, action) => {
         awaitingAuthResponse: false,
         showModal: false,
         isUser: true,
+        uid: action.uid,
       });
     }
     case LOGOUT: {
       return Object.assign({}, state, {
         isUser: false,
+        uid: null,
       });
     }
     default: {

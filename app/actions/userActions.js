@@ -37,18 +37,10 @@ export function logout() {
   };
 }
 
-export function login(data) {
+export function login({ uid }) {
   return {
     type: LOGIN,
-    data,
-  };
-}
-
-export function signup(data) {
-  console.log(userData.uid);
-  return {
-    type: SIGNUP,
-    data,
+    uid,
   };
 }
 

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { showModal, logout } from '../actions/userActions';
+import { newPoll } from '../actions/pollActions';
 import '../styles/_Navigation.scss';
 
 class Navigation extends Component {
@@ -11,7 +12,6 @@ class Navigation extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
   }
 
   onLogout() {
@@ -20,6 +20,10 @@ class Navigation extends Component {
 
   onShowModal() {
     this.props.dispatch(showModal());
+  }
+
+  onNewPoll() {
+    this.props.dispatch(newPoll());
   }
 
   renderNonUserButtons() {
@@ -36,7 +40,7 @@ class Navigation extends Component {
         <div className="link-button button" onClick={this.onLogout.bind(this)}>Logout</div>
         <div className="link-button button">My Account</div>
         <div className="link-button button">My Sessions</div>
-        <div className="clear-button button">New Poll Session</div>
+        <div className="clear-button button" onClick={this.onNewPoll.bind(this)}>New Poll Session</div>
       </div>
     );
   }

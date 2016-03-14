@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import '../styles/_Poll.scss';
 
-export default class SessionPage extends Component {
+export default class Poll extends Component {
   componentWillMount() {
   }
 
