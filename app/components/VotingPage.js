@@ -9,7 +9,8 @@ export default class VotingPage extends Component {
     const label = ['A', 'B', 'C', 'D', 'E'][option];
 
     return (
-      <div className="candidate active" key={option}>
+      <div className="candidate" key={option}>
+        <span className="vertical-aligner"></span>
         <div className="candidate-name">{label}</div>
         <div className="candidate-progress-bar"></div>
         <div className="condidate-votes-container">
@@ -28,21 +29,11 @@ export default class VotingPage extends Component {
 
     return (
       <div id="VotingPage">
-        <header>
-          <div className="logo">
-            <div className="logo-box" />
-            <div className="logo-text-container">
-              <div className="logo-text">
-                <div className="logo-text-inner">Smartpolls</div>
-              </div>
-            </div>
-          </div>
-        </header>
-        <div className="main">
-          <div className="annoucement">
-            Professor Lo's Polls
-            <div className="annoucement-subtext">
-              Locked
+        <div className="main-container">
+          <div className="main card">
+            <div className="annoucement">
+              Professor Lo's Polls
+              <p className="annoucement-subtext">Locked</p>
             </div>
           </div>
         </div>

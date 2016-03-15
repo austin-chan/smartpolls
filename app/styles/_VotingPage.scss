@@ -1,93 +1,72 @@
-$logo-height: 51px;
+@import 'include/mixin';
+@import 'include/responsive';
 
-@mixin unselectable {
-    /* Chrome/Safari */
-    -webkit-user-select: none;
-    /* Firefox */
-    -moz-user-select: none;
-    /* IE10+ */
-    -ms-user-select: none;
-    /* Rules below not implemented in browsers yet */
-    -o-user-select: none;
-    user-select: none;
+#VotingPage {
+    @include media(">phone") {
+
+    }
 }
 
-// .logo {
-//     @include unselectable;
-//     height: $logo-height;
-//     .logo-box {
-//         display: inline-block;
-//         width: $logo-height;
-//         height: $logo-height;
-//         background: white;
-//     }
-//     .logo-text-container {
-//         display: inline-block;
-//         width: $logo-height;
-//         height: $logo-height;
-//         .logo-text {
-//             height: 51px;
-//             width: 51px;
-//             float: right;
-//             .logo-text-inner {
-//                 padding-left: 20px;
-//                 height: 51px;
-//                 transform: translateY(5px);
-//                 font-size: 34px;
-//                 color: white;
-//                 line-height: 40px;
-//                 text-align: center;
-//             }
-//         }
-//     }
-// }
+.main {
+    width: 423px;
+    margin: 0 auto;
+    background: #FBFBFB;
+    padding: 38px 0;
+}
+
+.main-container {
+    padding-bottom: 34px;
+}
 
 .annoucement {
-    margin: 35px 35px 75px 35px;
-    padding: 55px;
-    background: #fbfbfb;
-    border: 1px solid #cfcfcf;
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
-    border-radius: 7px;
-    font-size: 45px;
+    // margin: 35px 35px 75px 35px;
+    // padding: 55px;
+    // font-size: 45px;
+    font-size: 30px;
     color: #656565;
-    line-height: 53px;
     text-align: center;
+
     .annoucement-subtext {
-        font-size: 26px;
+        font-size: 18px;
         color: #989898;
-        line-height: 30px;
+        margin-top: 8px;
     }
 }
 
 .candidate {
-    margin: 23px 35px 23px 35px;
-    height: 80px;
+    position: relative;
+    margin: 17px auto;
+    width: 423px;
+    height: 60px;
     background-image: linear-gradient(-180deg, #fdfdfd 0%, #ededed 100%);
-    border: 1px solid #e0e0e0;
+    // border: 1px solid #e0e0e0;
+    border: 1px solid transparent;
     box-shadow: 0px 0px 2px 0px #a7a7a7;
     border-radius: 7px;
     vertical-align: middle;
-    @include unselectable;
     cursor: pointer;
+    @include no-select();
+
     &:active, &.active {
         border: 1px solid #b9b9b9;
         background-image: linear-gradient(-180deg, gainsboro 0%, #d4d4d4 100%);
         box-shadow: 0px 0px 2px 0px #a7a7a7, inset 0px 3px 6px 0px rgba(163, 163, 163, 0.67);
         border-radius: 7px;
     }
+
     .candidate-name {
-        position: absolute;
         display: inline-block;
-        height: 100%;
-        margin-left: 36px;
-        line-height: 80px;
-        font-size: 39px;
+        vertical-align: middle;
+        margin-left: 26px;
+        font-size: 32px;
         color: #717171;
+        padding-top: 5px;
     }
+
     .condidate-votes-container {
         display: inline-block;
         width: 100%;
+
         .candidate-votes {
             width: 100px;
             margin: auto;
@@ -97,6 +76,7 @@ $logo-height: 51px;
             color: #929292;
         }
     }
+
     .candidate-progress-bar {
         border-radius: 7px 0 0 7px;
         position: absolute;

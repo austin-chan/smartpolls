@@ -1,4 +1,5 @@
 import { push } from 'react-router-redux';
+import { resetPolls } from './pollActions';
 import baseRef from '../firebase';
 
 // action type constants
@@ -38,14 +39,17 @@ export function logout() {
 }
 
 export function login({ uid }) {
-  return {
-    type: LOGIN,
-    uid,
+  return (dispatch) => {
+    dispatch({
+      type: LOGIN,
+      uid,
+    });
+    dispatch(resetPolls());
   };
 }
 
 // error types: https://www.firebase.com/docs/web/guide/user-auth.html
-export function receiveError(error, shouldShowSignup) {
+function receiveError(error, shouldShowSignup) {
   return (dispatch) => {
     if (error) {
       dispatch({

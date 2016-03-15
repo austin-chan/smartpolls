@@ -132,11 +132,11 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
   return {
     showSignup: state.user.showSignup,
     error: state.user.error,
   };
-};
+}
 
 export default connect(mapStateToProps)(Login);

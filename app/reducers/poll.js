@@ -1,7 +1,8 @@
-import { RESET_POLLS, NEW_POLL } from '../actions/pollActions';
+import { RESET_POLLS, NEW_POLL, AWAITING_CHANGE_POLL_KEY, CHANGE_POLL_KEY } from '../actions/pollActions';
 
 const initialState = {
   awaitingPayload: true,
+  awaitingNameChange: false,
   polls: {},
 };
 
@@ -20,6 +21,23 @@ const poll = (state = initialState, action) => {
             pollKey: action.pollKey,
             uid: action.uid,
           },
+        }),
+      });
+    }
+    case AWAITING_CHANGE_POLL_KEY: {
+      return Object.assign({}, state, {
+        awaitingNameChange: true,
+      });
+    }
+    case CHANGE_POLL_KEY: {
+      const newPoll = Object.assign({}, state.polls[action.pollId], {
+        pollKey: action.pollKey,
+      });
+
+      return Object.assign({}, state, {
+        awaitingNameChange: false,
+        polls: Object.assign({}, state.polls, {
+          [action.pollId]: newPoll,
         }),
       });
     }

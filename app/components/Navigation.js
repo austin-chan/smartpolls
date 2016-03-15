@@ -70,10 +70,10 @@ class Navigation extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
   return {
     user: state.user,
   };
-};
+}
 
 export default connect(mapStateToProps)(Navigation);

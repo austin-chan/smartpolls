@@ -59,10 +59,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
   return {
     showModal: state.user.showModal,
   };
-};
+}
 
 export default connect(mapStateToProps)(App);

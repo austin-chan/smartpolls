@@ -4,6 +4,7 @@ import baseRef from '../firebase';
 
 export const NEW_POLL = 'NEW_POLL';
 export const RESET_POLLS = 'RESET_POLLS';
+export const ATTEMPT_CHANGE_POLL_KEY = 'ATTEMPT_CHANGE_POLL_KEY';
 export const CHANGE_POLL_KEY = 'CHANGE_POLL_KEY';
 
 export function resetPolls() {
@@ -61,12 +62,37 @@ export function newPoll() {
   };
 }
 
-export function changePollKey() {
-  const newKey = namer();
+function changePollKey(pollId) {
+  return (dispatch) => {
+    const newKey = namer();
+    const pollsRef = baseRef.child(`polls`);
 
+    pollsRef.orderByChild('pollKey').equalTo(newKey).once('value', (data) => {
+      // key already exists, try another one
+      if (data.exists()) return changePollKey(pollId)(dispatch);
 
-  return {
-    type: CHANGE_POLL_KEY,
-    pollKey: newKey,
-  }
+      // update the name in Firebase
+      const pollRef = baseRef.child(`polls/${pollId}`);
+      pollRef.update({
+        poll_key: newKey,
+      });
+
+      // update local store
+      dispatch({
+        type: CHANGE_POLL_KEY,
+        pollKey: newKey,
+        pollId,
+      });
+    });
+  };
+}
+
+export function attemptChangePollKey(pollId) {
+  return (dispatch, getState) => {
+    // currently another process active
+    if (getState().poll.awaitingNameChange) return;
+
+    dispatch({ type: ATTEMPT_CHANGE_POLL_KEY });
+    changePollKey(pollId)(dispatch);
+  };
 }
