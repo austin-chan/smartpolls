@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Poll from './Poll';
-import { attemptChangePollKey } from '../actions/pollActions';
+import { attemptChangePollKey, startTracking } from '../actions/pollActions';
 import '../styles/_SessionPage.scss';
 
 export default class SessionPage extends Component {
@@ -13,6 +13,7 @@ export default class SessionPage extends Component {
   };
 
   componentWillMount() {
+    this.props.dispatch(startTracking(this.props.pollId));
   }
 
   onChangePollKey() {
@@ -39,6 +40,19 @@ export default class SessionPage extends Component {
     );
   }
 
+  renderQuestions() {
+    return (
+      <div className="poll-card card">
+        <div className="top-bar">
+          <h2 className="title">Question #1</h2>
+          <span className="status">Active</span>
+          <div className="standard-button button lock-button">Lock & Show Results</div>
+        </div>
+        <Poll />
+      </div>
+    );
+  }
+
   render() {
     // render loading page
     if (this.props.awaitingPayload) return this.renderLoading();
@@ -56,15 +70,15 @@ export default class SessionPage extends Component {
             <div className="left-side side">
               <span className="vertical-aligner"></span>
               <div className="wrap">
-                <h5>Poll Session Code</h5>
+                <h5>Poll Code</h5>
                 <p className="session-code">{pollKey}</p>
-                <div className="button standard-button" onClick={this.onChangePollKey.bind(this)}>Change Session Code</div>
+                <div className="button standard-button" onClick={this.onChangePollKey.bind(this)}>Change Poll Code</div>
               </div>
             </div>
             <div className="middle-side side">
               <span className="vertical-aligner"></span>
               <div className="wrap">
-                <h5>To join the polling session:</h5>
+                <h5>To join the poll:</h5>
                 <div className="steps">
                   <p className="step">1. Navigate to smartpolls.co</p>
                   <p className="step">2. Enter code {pollKey}</p>
@@ -87,20 +101,9 @@ export default class SessionPage extends Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="container">
-          <div className="poll-card card">
-            <div className="top-bar">
-              <h2 className="title">Poll #1</h2>
-              <span className="status">Active</span>
-              <div className="standard-button button lock-button">Lock & Show Results</div>
-            </div>
-            <Poll />
-          </div>
-        </div>
-        <div className="container">
+          {this.renderQuestions()}
           <div id="new-poll-card" className="card">
-            <div className="standard-button large button">Activate New Poll</div>
+            <div className="standard-button large button">Activate New Question</div>
           </div>
         </div>
       </div>

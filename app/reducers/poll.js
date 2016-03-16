@@ -1,4 +1,5 @@
-import { RESET_POLLS, NEW_POLL, AWAITING_CHANGE_POLL_KEY, CHANGE_POLL_KEY } from '../actions/pollActions';
+import { RESET_POLLS, NEW_POLL, AWAITING_CHANGE_POLL_KEY, CHANGE_POLL_KEY,
+  START_TRACKING } from '../actions/pollActions';
 
 const initialState = {
   awaitingPayload: true,
@@ -39,6 +40,15 @@ const poll = (state = initialState, action) => {
         polls: Object.assign({}, state.polls, {
           [action.pollId]: newPoll,
         }),
+      });
+    }
+    case START_TRACKING: {
+      const newPolls = Object.assign({}, state.polls, {
+        [action.pollId]: action.questionData,
+      });
+
+      return Object.assign({}, state, {
+        polls: newPolls,
       });
     }
     default: {

@@ -14,7 +14,6 @@ class App extends Component {
   };
 
   componentWillMount() {
-    // console.log(this.props.dispatch);
     this.props.dispatch(resetPolls());
   }
 

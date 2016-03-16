@@ -90,7 +90,7 @@ export function attemptLogin(email, password) {
  * @param {String} name
  */
 export function attemptSignup(email, password, name) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     // prevent double request
     if (getState().user.awaitingAuthResponse) return;
 
@@ -104,12 +104,10 @@ export function attemptSignup(email, password, name) {
     baseRef.createUser({
       email,
       password,
-    }, (error, userData) => {
+    }, (error, authData) => {
       if (error) {
         dispatch(receiveError(error.code));
       } else {
-        login();
-
         // log the user in
         baseRef.authWithPassword({
           email,
@@ -118,13 +116,13 @@ export function attemptSignup(email, password, name) {
           // update the name of the user
           const usersRef = baseRef.child('users');
           usersRef.update({
-            [userData.uid]: {
+            [authData.uid]: {
               name,
             },
           });
 
           // update the store with the user info
-          dispatch(login(userData));
+          dispatch(login(authData));
         });
       }
     });

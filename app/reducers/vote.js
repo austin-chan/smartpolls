@@ -10,7 +10,7 @@ const setNewVoterId = () => {
 
 const initialState = {
   voterId: cookie.load('voterId') | setNewVoterId(),
-  isAwaitingResponse: false,
+  awaitingResponse: false,
   errorPollKey: '',
 };
 
@@ -18,18 +18,18 @@ const vote = (state = initialState, action) => {
   switch (action.type) {
     case ATTEMPT_JOIN_VOTE: {
       return Object.assign({}, state, {
-        isAwaitingResponse: true,
+        awaitingResponse: true,
       });
     }
     case INVALID_JOIN_VOTE: {
       return Object.assign({}, state, {
-        isAwaitingResponse: false,
+        awaitingResponse: false,
         errorPollKey: action.pollKey,
       });
     }
     case JOIN_VOTE: {
       return Object.assign({}, state, {
-        isAwaitingResponse: false,
+        awaitingResponse: false,
       });
     }
     default: {

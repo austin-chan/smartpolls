@@ -21,7 +21,7 @@ function invalidJoinVote(pollKey) {
 
 export function attemptJoinVote(pollKey) {
   return (dispatch, getState) => {
-    if (!getState().vote.isAwaitingResponse) {
+    if (!getState().vote.awaitingResponse) {
       dispatch({ type: ATTEMPT_JOIN_VOTE });
       if (!pollKey) return setTimeout(() => (dispatch(invalidJoinVote(pollKey))), 0);
 

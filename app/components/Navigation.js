@@ -39,8 +39,8 @@ class Navigation extends Component {
       <div className="button-list">
         <div className="link-button button" onClick={this.onLogout.bind(this)}>Logout</div>
         <div className="link-button button">My Account</div>
-        <div className="link-button button">My Sessions</div>
-        <div className="clear-button button" onClick={this.onNewPoll.bind(this)}>New Poll Session</div>
+        <div className="link-button button">My Polls</div>
+        <div className="clear-button button" onClick={this.onNewPoll.bind(this)}>New Poll</div>
       </div>
     );
   }
