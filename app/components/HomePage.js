@@ -16,6 +16,14 @@ class VotingPage extends Component {
     errorPollKey: PropTypes.string,
   };
 
+  constructor() {
+    super();
+    this.onSignupClick = this.onSignupClick.bind(this);
+    this.onNewPoll = this.onNewPoll.bind(this);
+    this.onVoteJoin = this.onVoteJoin.bind(this);
+    this.onVoteKeyPress = this.onVoteKeyPress.bind(this);
+  }
+
   componentWillMount() {
     // workaround for weird Collapse component bug
     this.props.dispatch(attemptJoinVote(this.props.errorPollKey === '' ? null : ''));
@@ -49,8 +57,10 @@ class VotingPage extends Component {
   // render new poll button for users, signup button for guests
   renderActionButton() {
     return this.props.isUser ?
-      (<div className="standard-button button large signup-button" onClick={this.onNewPoll.bind(this)}>Create a New Poll</div>) :
-      (<div className="standard-button button large signup-button" onClick={this.onSignupClick.bind(this)}>Signup for Smartpolls</div>);
+      <div className="standard-button button large signup-button" onClick={this.onNewPoll}>
+        Create a New Poll</div> :
+      <div className="standard-button button large signup-button" onClick={this.onSignupClick}>
+        Signup for Smartpolls</div>;
   }
 
   renderJoinError() {
@@ -69,15 +79,16 @@ class VotingPage extends Component {
           <div className="hero-card card clearfix">
             <div className="left-side">
               <p className="tagline">
-                Create <strong>Fast</strong> and <strong>Simple Live Polls</strong> with <strong>Smartpolls</strong>
+                Create <strong>Fast</strong> and <strong>Simple Live Polls</strong>&nbsp;
+                with <strong>Smartpolls</strong>
               </p>
               <p className="second-tagline">
-                No Frills, Just Thrills.<br/>All for Free.
+                No Frills, Just Thrills.<br />All for Free.
               </p>
               {this.renderActionButton()}
             </div>
             <div className="right-side">
-              <Poll />
+              <Poll aCount={274} bCount={98} cCount={0} dCount={3} eCount={0} hideTotal />
             </div>
           </div>
         </div>
@@ -86,8 +97,12 @@ class VotingPage extends Component {
             <Collapse isOpened springConfig={presets.gentle}>
               <h5 className="card-header">Join a Poll</h5>
               <div className="input-group">
-                <input type="text" className="standard-input session-code-input" ref="joinInput" placeholder="Enter Poll Session Code" onKeyPress={this.onVoteKeyPress.bind(this)}/>
-                <div className="standard-button button large join-button" onClick={this.onVoteJoin.bind(this)}>Join</div>
+                <input type="text" className="standard-input session-code-input" ref="joinInput"
+                  placeholder="Enter Poll Session Code" onKeyPress={this.onVoteKeyPress}
+                />
+                <div className="standard-button button large join-button" onClick={this.onVoteJoin}>
+                  Join
+                </div>
               </div>
               {this.renderJoinError()}
             </Collapse>

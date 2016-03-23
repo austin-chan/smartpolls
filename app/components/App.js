@@ -4,6 +4,7 @@ import { TransitionMotion, spring, presets } from 'react-motion';
 import Navigation from './Navigation';
 import Login from './Login';
 import { resetPolls } from '../actions/pollActions';
+import { initVoting } from '../actions/voteActions';
 import '../styles/_App.scss';
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
 
   componentWillMount() {
     this.props.dispatch(resetPolls());
+    this.props.dispatch(initVoting());
   }
 
   renderLogin() {

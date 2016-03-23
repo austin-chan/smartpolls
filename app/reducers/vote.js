@@ -1,5 +1,6 @@
 import cookie from 'react-cookie';
-import { JOIN_VOTE, INVALID_JOIN_VOTE, ATTEMPT_JOIN_VOTE } from '../actions/voteActions';
+import { JOIN_VOTE, INVALID_JOIN_VOTE, ATTEMPT_JOIN_VOTE, NOT_FOUND, RECEIVE_VOTE_DATA,
+  RECEIVE_QUESTION_DATA } from '../actions/voteActions';
 
 // initialize the voter id
 const setNewVoterId = () => {
@@ -9,9 +10,12 @@ const setNewVoterId = () => {
 };
 
 const initialState = {
-  voterId: cookie.load('voterId') | setNewVoterId(),
+  voterId: cookie.load('voterId') || setNewVoterId(),
   awaitingResponse: false,
+  notFound: false,
   errorPollKey: '',
+  votes: {},
+  questions: {},
 };
 
 const vote = (state = initialState, action) => {
@@ -19,6 +23,21 @@ const vote = (state = initialState, action) => {
     case ATTEMPT_JOIN_VOTE: {
       return Object.assign({}, state, {
         awaitingResponse: true,
+      });
+    }
+    case RECEIVE_VOTE_DATA: {
+      return Object.assign({}, state, {
+        votes: action.data,
+      });
+    }
+    case RECEIVE_QUESTION_DATA: {
+      return Object.assign({}, state, {
+        questions: action.data,
+      });
+    }
+    case NOT_FOUND: {
+      return Object.assign({}, state, {
+        notFound: true,
       });
     }
     case INVALID_JOIN_VOTE: {

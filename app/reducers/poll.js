@@ -1,54 +1,39 @@
-import { RESET_POLLS, NEW_POLL, AWAITING_CHANGE_POLL_KEY, CHANGE_POLL_KEY,
-  START_TRACKING } from '../actions/pollActions';
+import { RECEIVE_POLL_DATA, RECEIVE_QUESTION_DATA, NEW_POLL } from '../actions/pollActions';
 
 const initialState = {
-  awaitingPayload: true,
-  awaitingNameChange: false,
+  awaitingInitialLoad: true,
   polls: {},
 };
 
 const poll = (state = initialState, action) => {
   switch (action.type) {
-    case RESET_POLLS: {
+    case RECEIVE_POLL_DATA: {
+      const polls = Object.assign({}, state.polls);
+      const overrideData = action.data;
+      Object.keys(overrideData).forEach((pollId) => {
+        polls[pollId] = Object.assign({}, polls[pollId], overrideData[pollId]);
+      });
+
       return Object.assign({}, state, {
-        awaitingPayload: false,
-        polls: Object.assign({}, action.polls),
+        awaitingInitialLoad: false,
+        polls,
+      });
+    }
+    case RECEIVE_QUESTION_DATA: {
+      return Object.assign({}, state, {
+        polls: Object.assign({}, state.polls, {
+          [action.pollId]: Object.assign({}, state.polls[action.pollId], {
+            isQuestionsLoaded: true,
+            questions: action.data,
+          }),
+        }),
       });
     }
     case NEW_POLL: {
       return Object.assign({}, state, {
         polls: Object.assign({}, state.polls, {
-          [action.pollId]: {
-            pollKey: action.pollKey,
-            uid: action.uid,
-          },
+          [action.pollId]: action.data,
         }),
-      });
-    }
-    case AWAITING_CHANGE_POLL_KEY: {
-      return Object.assign({}, state, {
-        awaitingNameChange: true,
-      });
-    }
-    case CHANGE_POLL_KEY: {
-      const newPoll = Object.assign({}, state.polls[action.pollId], {
-        pollKey: action.pollKey,
-      });
-
-      return Object.assign({}, state, {
-        awaitingNameChange: false,
-        polls: Object.assign({}, state.polls, {
-          [action.pollId]: newPoll,
-        }),
-      });
-    }
-    case START_TRACKING: {
-      const newPolls = Object.assign({}, state.polls, {
-        [action.pollId]: action.questionData,
-      });
-
-      return Object.assign({}, state, {
-        polls: newPolls,
       });
     }
     default: {

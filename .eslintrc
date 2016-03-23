@@ -1,0 +1,8 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "presets": ["es2015"],
+  "ecmaFeatures": {
+    "classes": true
+  }
+}

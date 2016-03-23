@@ -1,27 +1,60 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Poll from './Poll';
-import { attemptChangePollKey, startTracking } from '../actions/pollActions';
+import { changePollKey, startTracking, stopTracking, lockQuestion,
+  newQuestion } from '../actions/pollActions';
 import '../styles/_SessionPage.scss';
 
 export default class SessionPage extends Component {
   static propTypes = {
     pollId: PropTypes.string,
     polls: PropTypes.object.isRequired,
-    awaitingPayload: PropTypes.bool.isRequired,
+    awaitingInitialLoad: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
   };
+
+  constructor() {
+    super();
+    this.onActivateNewQuestion = this.onActivateNewQuestion.bind(this);
+    this.onChangePollKey = this.onChangePollKey.bind(this);
+    this.onLockQuestion = this.onLockQuestion.bind(this);
+  }
 
   componentWillMount() {
     this.props.dispatch(startTracking(this.props.pollId));
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(stopTracking(this.props.pollId));
+  }
+
   onChangePollKey() {
-    this.props.dispatch(attemptChangePollKey(this.props.pollId));
+    this.props.dispatch(changePollKey(this.props.pollId));
+  }
+
+  onActivateNewQuestion() {
+    const lastQuestionId = Object.keys(this.getPoll().questions).slice(-1)[0];
+    this.props.dispatch(lockQuestion(lastQuestionId));
+    this.props.dispatch(newQuestion(this.props.pollId));
+  }
+
+  onLockQuestion(questionId) {
+    return () => {
+      this.props.dispatch(lockQuestion(questionId));
+    };
   }
 
   getPoll() {
     return this.props.polls[this.props.pollId];
+  }
+
+  isLoading() {
+    return this.props.awaitingInitialLoad || !this.getPoll().isPollLoaded ||
+      !this.getPoll().isQuestionsLoaded;
+  }
+
+  isPollValid() {
+    return !!this.getPoll();
   }
 
   renderLoading() {
@@ -41,21 +74,44 @@ export default class SessionPage extends Component {
   }
 
   renderQuestions() {
-    return (
-      <div className="poll-card card">
-        <div className="top-bar">
-          <h2 className="title">Question #1</h2>
-          <span className="status">Active</span>
-          <div className="standard-button button lock-button">Lock & Show Results</div>
+    const questions = this.getPoll().questions;
+    const questionList = [];
+
+    Object.keys(questions).forEach((questionId, index) => {
+      const question = questions[questionId];
+      const { aCount, bCount, cCount, dCount, eCount } = question;
+      let lockedLabel = 'Locked';
+      let lockButton;
+
+      if (!question.locked) {
+        lockedLabel = 'Active';
+        lockButton = (
+          <div className="standard-button button lock-button"
+            onClick={this.onLockQuestion(questionId)}
+          >
+            Lock & Show Results
+          </div>
+        );
+      }
+
+      questionList.push(
+        <div className="poll-card card" key={questionId}>
+          <div className="top-bar">
+            <h2 className="title">Question #{index + 1}</h2>
+            <span className="status">{lockedLabel}</span>
+            {lockButton}
+          </div>
+          <Poll aCount={aCount} bCount={bCount} cCount={cCount} dCount={dCount} eCount={eCount} />
         </div>
-        <Poll />
-      </div>
-    );
+      );
+    });
+
+    return questionList;
   }
 
   render() {
     // render loading page
-    if (this.props.awaitingPayload) return this.renderLoading();
+    if (this.isLoading()) return this.renderLoading();
 
     // render no found poll page
     if (!this.isPollValid()) return this.renderNotFound();
@@ -72,7 +128,9 @@ export default class SessionPage extends Component {
               <div className="wrap">
                 <h5>Poll Code</h5>
                 <p className="session-code">{pollKey}</p>
-                <div className="button standard-button" onClick={this.onChangePollKey.bind(this)}>Change Poll Code</div>
+                <div className="button standard-button" onClick={this.onChangePollKey}>
+                  Change Poll Code
+                </div>
               </div>
             </div>
             <div className="middle-side side">
@@ -90,11 +148,11 @@ export default class SessionPage extends Component {
                 <span className="vertical-aligner"></span>
                 <div className="counters">
                   <div className="votes">
-                    <span className="count">8</span>
+                    <span className="count">{poll.voteCount}</span>
                     <span className="label">votes</span>
                   </div>
                   <div className="voters">
-                    <span className="count">5</span>
+                    <span className="count">{poll.voterCount}</span>
                     <span className="label">voters</span>
                   </div>
                 </div>
@@ -103,15 +161,13 @@ export default class SessionPage extends Component {
           </div>
           {this.renderQuestions()}
           <div id="new-poll-card" className="card">
-            <div className="standard-button large button">Activate New Question</div>
+            <div className="standard-button large button" onClick={this.onActivateNewQuestion}>
+              Activate New Question
+            </div>
           </div>
         </div>
       </div>
     );
-  }
-
-  isPollValid() {
-    return !!this.getPoll();
   }
 }
 
@@ -119,7 +175,7 @@ function mapStateToProps(state, ownProps) {
   return {
     pollId: ownProps.params.pollId,
     polls: state.poll.polls,
-    awaitingPayload: state.poll.awaitingPayload,
+    awaitingInitialLoad: state.poll.awaitingInitialLoad,
   };
 }
 
