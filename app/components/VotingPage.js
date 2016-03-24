@@ -69,7 +69,8 @@ class VotingPage extends Component {
 
   renderLoading() {
     return (
-      <div>Loading</div>
+      <div>
+      </div>
     );
   }
 

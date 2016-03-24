@@ -68,7 +68,7 @@ class Navigation extends Component {
             <div className="logo">
               <Link to={'/'}>
                 <span className="vertical-aligner" />
-                <img className="logo-image" src="http://placehold.it/100x100" />
+                <img className="logo-image" src="https://placehold.it/100x100" />
                 <div className="logo-text">Smartpolls</div>
               </Link>
             </div>

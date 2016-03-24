@@ -68,6 +68,8 @@ Redux data structure documentation
       - isQuestionLoaded: Whether the initial question information has been loaded (bool)
       - voteCount: The number of votes the entire poll has received (number)
       - voterCount: The number of voters who have voted (number)
+      - questionRefs
+        - {question id}: true
       - questions
         - {question id}
           - voteCount: The number of votes the poll has received (number)

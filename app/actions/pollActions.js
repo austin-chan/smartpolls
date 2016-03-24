@@ -16,8 +16,9 @@ function receivePollData(data) {
   Object.keys(data).forEach((key) => {
     const obj = Object.assign({}, data[key]);
     obj.isPollLoaded = true;
-    delete obj.questions;
+    obj.questionRefs = obj.questions;
     delete obj.uid;
+    delete obj.questions;
     transformedData[key] = obj;
   });
 
@@ -89,7 +90,7 @@ export function lockQuestion(questionId) {
 
 export function newQuestion(pollId) {
   return (dispatch, getState) => {
-    baseRef.child('questions').push({
+    const questionRef = baseRef.child('questions').push({
       aCount: 0,
       bCount: 0,
       cCount: 0,
@@ -99,6 +100,10 @@ export function newQuestion(pollId) {
       voterCount: 0,
       uid: getState().user.uid,
       pollId,
+    });
+
+    baseRef.child(`polls/${pollId}/questions`).update({
+      [questionRef.key()]: true,
     });
   };
 }

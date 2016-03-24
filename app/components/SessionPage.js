@@ -73,7 +73,6 @@ export default class SessionPage extends Component {
   renderLoading() {
     return (
       <div>
-        Loading
       </div>
     );
   }
@@ -93,16 +92,16 @@ export default class SessionPage extends Component {
     Object.keys(questions).forEach((questionId, index) => {
       const question = questions[questionId];
       const { aCount, bCount, cCount, dCount, eCount } = question;
-      let lockedLabel = 'Locked';
+      let lockedLabel = 'Closed For Voting';
       let lockButton;
 
       if (!question.locked) {
-        lockedLabel = 'Active';
+        lockedLabel = 'Open For Voting';
         lockButton = (
           <div className="standard-button button lock-button"
             onClick={this.onLockQuestion(questionId)}
           >
-            Lock & Show Results
+            Close Voting & Reveal Results To Voters
           </div>
         );
       }

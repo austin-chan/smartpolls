@@ -1,0 +1,22 @@
+#PollListPage {
+
+  .poll-list {
+    padding-top: 20px;
+  }
+
+  .poll-item {
+    padding-bottom: 16px;
+
+    .poll-name {
+      font-size: 22px;
+      padding-bottom: 5px;
+      cursor: pointer;
+      color: #636363;
+    }
+
+    .poll-info {
+      font-size: 15px;
+      color: #BBBBBB;
+    }
+  }
+}
