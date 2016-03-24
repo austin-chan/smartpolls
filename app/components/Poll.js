@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import pluralize from 'pluralize';
 import '../styles/_Poll.scss';
 
 export default class Poll extends Component {
@@ -27,16 +28,37 @@ export default class Poll extends Component {
     return Math.round((votes / total).toFixed(2) * 100);
   }
 
+  renderBarForLetter(letter) {
+    const count = this.props[`${letter}Count`];
+    const percentage = this.getVotePercentage(letter);
+    let innerBarLabel = `${percentage}%`;
+    let outerBarLabel = `${count} ${pluralize('vote', count)}`;
+
+    // handle high percentage cases
+    if (percentage >= 93) {
+      innerBarLabel = `${innerBarLabel} - ${outerBarLabel}`;
+      outerBarLabel = '';
+    } else if (percentage <= 5) {
+      innerBarLabel = '';
+    }
+
+    return (
+      <div className="graph-bar-wrap">
+        <span className="vertical-aligner"></span>
+        <div className="graph-bar" style={{ width: `${percentage}%` }}>
+          <span className="percentage">{innerBarLabel}</span>
+          <span className="count">{outerBarLabel}</span>
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { aCount, bCount, cCount, dCount, eCount, hideTotal } = this.props;
-    const aPercentage = this.getVotePercentage('a');
-    const bPercentage = this.getVotePercentage('b');
-    const cPercentage = this.getVotePercentage('c');
-    const dPercentage = this.getVotePercentage('d');
-    const ePercentage = this.getVotePercentage('e');
     let totalVotes;
 
-    if (!hideTotal) totalVotes = (<div className="total-votes">{this.getTotalVotes()} votes</div>);
+    if (!this.props.hideTotal) {
+      totalVotes = (<div className="total-votes">{this.getTotalVotes()} votes</div>);
+    }
 
     return (
       <div className="Poll">
@@ -65,41 +87,11 @@ export default class Poll extends Component {
         <div className="baseline"></div>
         <div className="graph">
           <div className="graph-bars">
-            <div className="graph-bar-wrap">
-              <span className="vertical-aligner"></span>
-              <div className="graph-bar" style={{ width: `${aPercentage}%` }}>
-                <span className="percentage">{aPercentage}%</span>
-                <span className="count">{aCount} votes</span>
-              </div>
-            </div>
-            <div className="graph-bar-wrap">
-              <span className="vertical-aligner"></span>
-              <div className="graph-bar" style={{ width: `${bPercentage}%` }}>
-                <span className="percentage">{bPercentage}%</span>
-                <span className="count">{bCount} votes</span>
-              </div>
-            </div>
-            <div className="graph-bar-wrap">
-              <span className="vertical-aligner"></span>
-              <div className="graph-bar" style={{ width: `${cPercentage}%` }}>
-                <span className="percentage">{cPercentage}%</span>
-                <span className="count">{cCount} votes</span>
-              </div>
-            </div>
-            <div className="graph-bar-wrap">
-              <span className="vertical-aligner"></span>
-              <div className="graph-bar" style={{ width: `${dPercentage}%` }}>
-                <span className="percentage">{dPercentage}%</span>
-                <span className="count">{dCount} votes</span>
-              </div>
-            </div>
-            <div className="graph-bar-wrap">
-              <span className="vertical-aligner"></span>
-              <div className="graph-bar" style={{ width: `${ePercentage}%` }}>
-                <span className="percentage">{ePercentage}%</span>
-                <span className="count">{eCount} votes</span>
-              </div>
-            </div>
+            {this.renderBarForLetter('a')}
+            {this.renderBarForLetter('b')}
+            {this.renderBarForLetter('c')}
+            {this.renderBarForLetter('d')}
+            {this.renderBarForLetter('e')}
           </div>
         </div>
         {totalVotes}

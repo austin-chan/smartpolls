@@ -60,7 +60,7 @@ export function startTracking(pollId) {
 
 export function stopTracking(pollId) {
   return () => {
-    baseRef.child(`polls/${pollId}`).off('value', trackCallbacks[pollId].poll);
+    baseRef.child('polls').off('value', trackCallbacks[pollId].poll);
     baseRef.child('questions').off('value', trackCallbacks[pollId].questions);
   };
 }

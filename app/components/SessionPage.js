@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import pluralize from 'pluralize';
 import Poll from './Poll';
 import { changePollKey, startTracking, stopTracking, lockQuestion,
   newQuestion } from '../actions/pollActions';
@@ -22,6 +23,18 @@ export default class SessionPage extends Component {
 
   componentWillMount() {
     this.props.dispatch(startTracking(this.props.pollId));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.pollId !== nextProps.pollId) {
+      this.componentWillUnmount();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.pollId !== prevProps.pollId) {
+      this.componentWillMount();
+    }
   }
 
   componentWillUnmount() {
@@ -149,11 +162,11 @@ export default class SessionPage extends Component {
                 <div className="counters">
                   <div className="votes">
                     <span className="count">{poll.voteCount}</span>
-                    <span className="label">votes</span>
+                    <span className="label">{pluralize('vote', poll.voteCount)}</span>
                   </div>
                   <div className="voters">
                     <span className="count">{poll.voterCount}</span>
-                    <span className="label">voters</span>
+                    <span className="label">{pluralize('voter', poll.voterCount)}</span>
                   </div>
                 </div>
               </div>

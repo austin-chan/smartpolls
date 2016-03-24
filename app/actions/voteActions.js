@@ -69,17 +69,23 @@ export function makeVote(pollId, questionId, choice) {
     const votes = getState().vote.votes;
     const voterId = getState().vote.voterId;
     const choiceClean = choice.toLowerCase();
+    const questionIsLocked = getState().vote.questions[questionId].locked;
     const pollRef = baseRef.child(`polls/${pollId}`);
     const questionRef = baseRef.child(`questions/${questionId}`);
     const votesRef = baseRef.child(`votes/${voterId}`);
 
+    // prevent voting when the question is locked.
+    if (questionIsLocked) return;
+
     if (!votes[pollId]) {
+      console.log('hooo');
       // voter has never voted in the poll
       pollRef.child('voterCount').transaction((val) => (val + 1));
     }
 
     // has not voted in this question yet
     if (!votes[pollId] || !votes[pollId][questionId]) {
+      console.log('iie');
       // update questions voter count
       questionRef.child('voterCount').transaction((val) => (val + 1));
 
@@ -91,7 +97,7 @@ export function makeVote(pollId, questionId, choice) {
       questionRef.child(`${choiceClean}Count`).transaction((val) => (val + 1));
     } else {
       // ignore if the same vote is selected
-      const prevVote = votes[questionId];
+      const prevVote = votes[pollId][questionId];
       if (prevVote === choiceClean) return;
 
       // decrement the old selection
@@ -104,7 +110,7 @@ export function makeVote(pollId, questionId, choice) {
     votesRef.update({
       [pollId]: {
         [questionId]: choiceClean,
-      }
+      },
     });
   };
 }

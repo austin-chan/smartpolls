@@ -38,6 +38,7 @@
     margin: 17px auto;
     width: 423px;
     height: 60px;
+    overflow: hidden;
     background-image: linear-gradient(-180deg, #fdfdfd 0%, #ededed 100%);
     // border: 1px solid #e0e0e0;
     border: 1px solid transparent;
@@ -64,15 +65,18 @@
     }
 
     .condidate-votes-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
         display: inline-block;
-        width: 100%;
 
         .candidate-votes {
-            width: 100px;
-            margin: auto;
-            height: 80px;
-            line-height: 80px;
-            font-size: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 18px;
             color: #929292;
         }
     }
@@ -80,7 +84,8 @@
     .candidate-progress-bar {
         border-radius: 7px 0 0 7px;
         position: absolute;
-        height: 80px;
+        top: -1px;
+        bottom: -1px;
         background: rgba(255, 107, 129, 0.12);
         box-shadow: 0px 0px 2px 0px rgba(163, 30, 52, 0.36);
     }

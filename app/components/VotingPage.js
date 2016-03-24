@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import pluralize from 'pluralize';
 import { startTracking, stopTracking, makeVote } from '../actions/voteActions';
 import '../styles/_VotingPage.scss';
 
@@ -37,6 +38,23 @@ class VotingPage extends Component {
     return keys[keys.length - 1];
   }
 
+  getTotalVotes() {
+    const { aCount, bCount, cCount, dCount, eCount } = this.props.questions[this.getQuestionId()];
+    return aCount + bCount + cCount + dCount + eCount;
+  }
+
+  getNumVotes(letter) {
+    return this.props.questions[this.getQuestionId()][`${letter.toLowerCase()}Count`];
+  }
+
+  getVotePercentage(letter) {
+    const votes = this.getNumVotes(letter);
+    const total = this.getTotalVotes();
+
+    if (!total) return 0;
+    return Math.round((votes / total).toFixed(2) * 100);
+  }
+
   hasVoted() {
     const { pollId } = this.props;
     const questionId = this.getQuestionId();
@@ -55,38 +73,50 @@ class VotingPage extends Component {
     );
   }
 
-  renderButtonForOption(option) {
-    const label = ['A', 'B', 'C', 'D', 'E'][option];
+  renderButtonForLetter(letter) {
     const { votes, pollId } = this.props;
-    let rootClass = 'candidate';
+    const questionId = this.getQuestionId();
+    const question = this.props.questions[questionId];
+    const numVotes = this.getNumVotes(letter);
+    const percentage = this.getVotePercentage(letter);
+    let buttonClass = 'candidate';
+    let pollResults;
 
+    // only check if the user has voted already
     if (this.hasVoted()) {
-      const vote = votes[pollId][this.getQuestionId()];
-      if (label.toLowerCase() === vote) rootClass += ' active';
+      const vote = votes[pollId][questionId];
+      if (letter === vote) buttonClass += ' active';
+    }
+
+    if (question.locked) {
+      pollResults = (
+        <div className="poll-results">
+          <div className="candidate-progress-bar" style={{ width: `${percentage}%` }}></div>
+          <div className="condidate-votes-container">
+            <span className="vertical-aligner"></span>
+            <div className="candidate-votes">{numVotes} {pluralize('vote', numVotes)}</div>
+          </div>
+        </div>
+      );
     }
 
     return (
-      <div className={rootClass} key={option} onClick={this.onMakeVote(label)}>
+      <div className={buttonClass} key={letter} onClick={this.onMakeVote(letter)}>
         <span className="vertical-aligner"></span>
-        <div className="candidate-name">{label}</div>
-        <div className="candidate-progress-bar"></div>
-        <div className="condidate-votes-container">
-          <div className="candidate-votes">1 vote</div>
-        </div>
+        <div className="candidate-name">{letter.toUpperCase()}</div>
+        {pollResults}
       </div>
     );
   }
 
   render() {
+    // poll not found
     if (this.props.notFound) return this.renderNotFound();
-
+    // data still loading
     if (!Object.keys(this.props.questions).length) return this.renderLoading();
 
-    const buttonNodes = [];
-
-    for (let b = 0; b < 5; b++) {
-      buttonNodes.push(this.renderButtonForOption(b));
-    }
+    const lockedLabel = this.props.questions[this.getQuestionId()].locked ?
+      'Voting For This Question Has Ended' : 'Poll Is Accepting Votes For This Question';
 
     return (
       <div id="VotingPage">
@@ -94,11 +124,15 @@ class VotingPage extends Component {
           <div className="main card">
             <div className="annoucement">
               Professor Lo's Poll
-              <p className="annoucement-subtext">Locked</p>
+              <p className="annoucement-subtext">{lockedLabel}</p>
             </div>
           </div>
         </div>
-        {buttonNodes}
+        {this.renderButtonForLetter('a')}
+        {this.renderButtonForLetter('b')}
+        {this.renderButtonForLetter('c')}
+        {this.renderButtonForLetter('d')}
+        {this.renderButtonForLetter('e')}
       </div>
     );
   }
