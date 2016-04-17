@@ -3,8 +3,9 @@ import { resetPolls } from './pollActions';
 import baseRef from '../firebase';
 
 // action type constants
-export const SHOW_MODAL = 'SHOW_MODAL';
+export const SHOW_LOGIN = 'SHOW_LOGIN';
 export const SHOW_SIGNUP = 'SHOW_SIGNUP';
+export const RECEIVE_DATA = 'RECEIVE_DATA';
 export const HIDE_LOGIN = 'HIDE_LOGIN';
 export const ATTEMPT_LOGIN_SIGNUP = 'ATTEMPT_LOGIN_SIGNUP';
 export const RECEIVE_ERROR = 'RECEIVE_ERROR';
@@ -12,9 +13,69 @@ export const LOGIN = 'LOGIN';
 export const SIGNUP = 'SIGNUP';
 export const LOGOUT = 'LOGOUT';
 
-export function showModal() {
+let trackCallback = null;
+
+export function receiveData(data) {
   return {
-    type: SHOW_MODAL,
+    type: RECEIVE_DATA,
+    data: {
+      name: data.name,
+    },
+  };
+}
+
+export function changeName(name) {
+  return (dispatch, getState) => {
+    const uid = getState().user.uid;
+    baseRef.child(`users/${uid}`).update({
+      name,
+    });
+  };
+}
+
+export function changePassword(oldP, newP, callback) {
+  return () => {
+    baseRef.changePassword({
+      email: baseRef.getAuth().password.email,
+      oldPassword: oldP,
+      newPassword: newP,
+    }, (error) => {
+      if (error) {
+        callback(String(error));
+      } else {
+        callback('Success');
+      }
+    });
+  };
+}
+
+export function startTracking() {
+  return (dispatch, getState) => {
+    const user = getState().user;
+
+    if (user.uid) {
+      trackCallback = baseRef.child(`users/${user.uid}`).on('value', (data) => {
+        const snapshot = data.val();
+
+        dispatch(receiveData(snapshot));
+      });
+    }
+  };
+}
+
+export function stopTracking() {
+  return (dispatch, getState) => {
+    const user = getState().user;
+
+    if (trackCallback) {
+      baseRef.child(`users/${user.uid}`).off('value', trackCallback);
+    }
+  };
+}
+
+export function showLogin() {
+  return {
+    type: SHOW_LOGIN,
   };
 }
 
@@ -34,6 +95,7 @@ export function logout() {
   return (dispatch) => {
     baseRef.unauth();
     dispatch(push('/'));
+    dispatch(stopTracking());
     dispatch({ type: LOGOUT });
   };
 }
@@ -45,21 +107,18 @@ export function login({ uid }) {
       uid,
     });
     dispatch(resetPolls());
+    dispatch(startTracking());
+    dispatch(push('/my-polls'));
   };
 }
 
 // error types: https://www.firebase.com/docs/web/guide/user-auth.html
-function receiveError(error, shouldShowSignup) {
+function receiveError(error) {
   return (dispatch) => {
-    if (error) {
-      dispatch({
-        type: RECEIVE_ERROR,
-        showSignup: shouldShowSignup,
-        error,
-      });
-    } else {
-      dispatch(login(authData));
-    }
+    dispatch({
+      type: RECEIVE_ERROR,
+      error,
+    });
   };
 }
 
@@ -74,7 +133,7 @@ export function attemptLogin(email, password) {
       password,
     }, (error, authData) => {
       if (error) {
-        dispatch(receiveError(error.code, error.code === 'INVALID_USER'));
+        dispatch(receiveError(error.code));
       } else {
         dispatch(login(authData));
       }

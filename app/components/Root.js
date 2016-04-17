@@ -7,6 +7,7 @@ import App from './App';
 import VotingPage from './VotingPage';
 import SessionPage from './SessionPage';
 import PollListPage from './PollListPage';
+import AccountPage from './AccountPage';
 import NoMatch from './NoMatch';
 import HomePage from './HomePage';
 
@@ -21,7 +22,8 @@ export default function Root() {
           <IndexRoute component={HomePage} />
           <Route path="v/:pollId" component={VotingPage} />
           <Route path="s/:pollId" component={SessionPage} />
-          <Route path="my-account" component={PollListPage} />
+          <Route path="my-polls" component={PollListPage} />
+          <Route path="my-account" component={AccountPage} />
           <Route path="*" component={NoMatch} />
         </Route>
       </Router>
