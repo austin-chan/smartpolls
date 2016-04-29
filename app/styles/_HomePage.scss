@@ -1,11 +1,16 @@
-#HomePage {
+@import "include/responsive";
 
+#HomePage {
     .card {
         margin-bottom: 15px;
     }
 
     .hero-card {
         padding: 28px;
+
+        @include media("<=tablet") {
+            display: none;
+        }
 
         .left-side {
             width: 255px;
@@ -43,17 +48,38 @@
     .join-card {
         padding: 20px 28px 30px;
 
+        @include media("<=tablet") {
+            padding: 17px 15px 20px;
+        }
+
         h5.card-header {
             font-size: 18px;
             color: #676767;
+
+            @include media("<=tablet") {
+                font-size: 15px
+            }
         }
 
         .input-group {
             padding-top: 10px;
 
+            @include media("<=tablet") {
+                padding-top: 8px;
+            }
+
+            .standard-input {
+                @include media("<=tablet") {
+                    width: calc(100% - 75px);
+                }
+            }
+
             .join-button {
                 vertical-align: middle;
                 display: inline-block;
+                @include media("<=tablet") {
+                    float: right;
+                }
             }
         }
 

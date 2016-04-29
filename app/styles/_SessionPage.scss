@@ -1,4 +1,9 @@
+@import 'include/responsive';
+
 #SessionPage {
+    @include media("<=tablet") {
+        display: none;
+    }
 
     .card {
         margin-bottom: 15px;

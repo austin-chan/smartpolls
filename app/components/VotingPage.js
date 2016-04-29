@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import pluralize from 'pluralize';
 import { startTracking, stopTracking, makeVote } from '../actions/voteActions';
+import baseRef from '../firebase';
 import '../styles/_VotingPage.scss';
 
 class VotingPage extends Component {
@@ -15,11 +16,18 @@ class VotingPage extends Component {
 
   constructor() {
     super();
+    this.state = { name: '' };
     this.onMakeVote = this.onMakeVote.bind(this);
   }
 
   componentWillMount() {
     this.props.dispatch(startTracking(this.props.pollId));
+    baseRef.child(`polls/${this.props.pollId}`).once('value', (data) => {
+      const snapshot = data.val();
+      baseRef.child(`users/${snapshot.uid}/name`).once('value', (d) => {
+        this.setState({ name: d.val() });
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -122,18 +130,22 @@ class VotingPage extends Component {
     return (
       <div id="VotingPage">
         <div className="main-container">
-          <div className="main card">
-            <div className="annoucement">
-              Professor Lo's Poll
-              <p className="annoucement-subtext">{lockedLabel}</p>
+          <div className="container">
+            <div className="main card">
+              <div className="annoucement">
+                {this.state.name}'s Poll
+                <p className="annoucement-subtext">{lockedLabel}</p>
+              </div>
             </div>
           </div>
         </div>
-        {this.renderButtonForLetter('a')}
-        {this.renderButtonForLetter('b')}
-        {this.renderButtonForLetter('c')}
-        {this.renderButtonForLetter('d')}
-        {this.renderButtonForLetter('e')}
+        <div className="container">
+          {this.renderButtonForLetter('a')}
+          {this.renderButtonForLetter('b')}
+          {this.renderButtonForLetter('c')}
+          {this.renderButtonForLetter('d')}
+          {this.renderButtonForLetter('e')}
+        </div>
       </div>
     );
   }
