@@ -1,0 +1,22 @@
+// smartpolls.firebaseio.com/uid/poll
+//  locked: true/false
+//  pollKey: a unique code
+//  voteCount: number of votes
+//  voterCount: number of unique voters
+//  pid: unique poll identifier
+
+// smartpolls.firebaseio.com/pollid/question
+//  options: 'a-b-c-d-e', '1-2-3', 'chicken-pork-beef'
+//  results: '0-0-1-0-0', '0-1-0', '5-3-1'
+//  qid: a unique identifier
+
+// smartpolls.firebaseio.com/user
+//  username: a-z0-9
+//  uid: a unique identifier
+
+// Actions:
+
+// GET a teacher's poll
+// ADD a poll
+// ADD a question
+// VOTE on a question
