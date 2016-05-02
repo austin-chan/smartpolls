@@ -8,6 +8,7 @@
 // smartpolls.firebaseio.com/pollid/question
 //  options: 'a-b-c-d-e', '1-2-3', 'chicken-pork-beef'
 //  results: '0-0-1-0-0', '0-1-0', '5-3-1'
+//  active: true/false
 //  qid: a unique identifier
 
 // smartpolls.firebaseio.com/user
@@ -17,6 +18,10 @@
 // Actions:
 
 // GET a teacher's poll
+// GET a poll's questions
+
 // ADD a poll
 // ADD a question
-// VOTE on a question
+
+// UPDATE a question to close it
+// UPDATE a question to vote on it
