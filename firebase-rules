@@ -1,0 +1,29 @@
+{
+  "rules": {
+    "base": {
+      "users": {
+        "$uid": {
+          // access if is own account
+          ".write": "auth !== null && auth.uid === $uid",
+          // access if is own account
+          ".read": true
+        }
+      },
+      "polls": {
+        ".read": true,
+        // access if is user
+        ".write": "true",
+        ".indexOn": ["uid", "pollKey"]
+      },
+      "questions": {
+        ".write": true,
+        ".read": true,
+        ".indexOn": ["pollId"]
+      },
+      "votes": {
+        ".write": true,
+        ".read": true
+      }
+    }
+  }
+}
