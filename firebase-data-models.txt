@@ -1,20 +1,32 @@
-// smartpolls.firebaseio.com/poll/pin/uid
+//////////
+// Data Models:
+//////////
+
+// Poll
+// smartpolls.firebaseio.com/poll/pin/pid
 //  voteCount: number of votes
 //  voterCount: number of unique voters
 //  locked: true/false (true when there are no open questions, false otherwise)
 //  pid: unique poll identifier
 
+// Question
 // smartpolls.firebaseio.com/question/pollid/qid
 //  options: 'a-b-c-d-e' (can be of length 2-26)
 //  results: '0-0-1-0-0' (length of options)
 //  locked: true/false
 //  qid: a unique identifier
 
+// User
 // smartpolls.firebaseio.com/user
 //  pin: 4-characters from a-z0-9
 //  uid: a unique identifier
 
+
+
+
+//////////
 // Actions:
+//////////
 
 // GET a teacher's poll
 // GET a poll's questions
