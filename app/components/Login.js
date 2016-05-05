@@ -10,8 +10,15 @@ class Login extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     style: PropTypes.object.isRequired,
-    showSignup: PropTypes.bool.isRequired,
+    isSignup: PropTypes.bool.isRequired,
     error: PropTypes.string,
+  }
+
+  constructor() {
+    super();
+    this.onKeyPress = this.onKeyPress.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount() {
@@ -36,12 +43,20 @@ class Login extends Component {
     const email = findDOMNode(this.refs.email).value;
     const password = findDOMNode(this.refs.password).value;
 
-    if (this.props.showSignup) {
+    if (this.props.isSignup) {
       const name = findDOMNode(this.refs.name).value;
       this.props.dispatch(attemptSignup(email, password, name));
     } else {
       this.props.dispatch(attemptLogin(email, password));
     }
+  }
+
+  willEnter() {
+    return { opacity: 0 };
+  }
+
+  willLeave() {
+    return { opacity: spring(0) };
   }
 
   renderEmailField() {
@@ -58,7 +73,9 @@ class Login extends Component {
 
     return (
       <div className="input-group email">
-        <input className="clear-input" ref="email" type="email" placeholder="Email Address" onKeyPress={this.onKeyPress.bind(this)} />
+        <input className="clear-input" ref="email" type="email" placeholder="Email Address"
+          onKeyPress={this.onKeyPress}
+        />
         {message}
       </div>
     );
@@ -77,7 +94,9 @@ class Login extends Component {
 
     return (
       <div className="input-group password">
-        <input className="clear-input" ref="password" type="password" placeholder="Password" onKeyPress={this.onKeyPress.bind(this)} />
+        <input className="clear-input" ref="password" type="password" placeholder="Password"
+          onKeyPress={this.onKeyPress}
+        />
         {message}
       </div>
     );
@@ -94,19 +113,21 @@ class Login extends Component {
       message = (<span className="error-message">{errorText}</span>);
     }
 
-    return this.props.showSignup ? (
+    return this.props.isSignup ? (
       <div className="input-group name">
-        <input className="clear-input" ref="name" type="text" placeholder="Name Displayed to Voters" onKeyPress={this.onKeyPress.bind(this)} />
+        <input className="clear-input" ref="name" type="text" placeholder="Name Displayed to Voters"
+          onKeyPress={this.onKeyPress}
+        />
         {message}
       </div>
     ) : null;
   }
 
   render() {
-    const title = this.props.showSignup ? 'Signup for Smartpolls' : 'Login/Signup';
+    const title = this.props.isSignup ? 'Signup for Smartpolls' : 'Log In to Smartpolls';
 
     return (
-      <div id="Login" style={this.props.style} onClick={this.onClick.bind(this)}>
+      <div id="Login" style={this.props.style} onClick={this.onClick}>
         <span className="vertical-aligner" />
         <Collapse isOpened springConfig={presets.gentle}>
           <h4>{title}</h4>
@@ -116,25 +137,17 @@ class Login extends Component {
           <div className="bottom-area">
             <span className="vertical-aligner" />
             <span className="link">Forgot Password?</span>
-            <div className="clear-button button" onClick={this.onSubmit.bind(this)}>Continue</div>
+            <div className="clear-button button" onClick={this.onSubmit}>Continue</div>
           </div>
         </Collapse>
       </div>
     );
   }
-
-  willEnter() {
-    return { opacity: 0 };
-  }
-
-  willLeave() {
-    return { opacity: spring(0) };
-  }
 }
 
 function mapStateToProps(state) {
   return {
-    showSignup: state.user.showSignup,
+    isSignup: state.user.isSignup,
     error: state.user.error,
   };
 }

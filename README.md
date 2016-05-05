@@ -58,6 +58,7 @@ Redux data structure documentation
   - showModal: Whether or not to display the modal (bool)
   - error: The type of error to display for login or signup (string)
   - uid: The id of the logged in user (bool|null)
+  - name: The name of the logged in user (string|null)
   - awaitingAuthResponse: Whether in the process of querying the auth (bool)
 - poll
   - awaitingInitialLoad: Whether the whole poll object needs to be loaded

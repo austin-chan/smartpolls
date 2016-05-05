@@ -138,10 +138,11 @@ export function attemptJoinVote(pollKey) {
         return;
       }
 
-      baseRef.child('polls').orderByChild('pollKey').equalTo(pollKey)
+      const pk = pollKey.toLowerCase();
+      baseRef.child('polls').orderByChild('pollKey').equalTo(pk)
         .once('value', (data) => {
           if (!data.exists()) {
-            dispatch(invalidJoinVote(pollKey));
+            dispatch(invalidJoinVote(pk));
             return;
           }
 

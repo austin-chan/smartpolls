@@ -28,8 +28,8 @@ body {
         padding-bottom: 50px;
         padding-top: 64px + 25px;
 
-        @include media("<=phone") {
-            padding-top: 88px;
+        @include media("<=tablet") {
+            padding-top: 70px;
         }
     }
 
@@ -43,6 +43,11 @@ body {
         bottom: 0;
         left: 0;
         color: #BDBDBD;
+
+        @include media("<=tablet") {
+            font-size: 11px;
+            height: 14px;
+        }
     }
 }
 

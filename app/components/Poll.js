@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Motion, spring, presets } from 'react-motion';
 import pluralize from 'pluralize';
 import '../styles/_Poll.scss';
 
@@ -45,10 +46,14 @@ export default class Poll extends Component {
     return (
       <div className="graph-bar-wrap">
         <span className="vertical-aligner"></span>
-        <div className="graph-bar" style={{ width: `${percentage}%` }}>
-          <span className="percentage">{innerBarLabel}</span>
-          <span className="count">{outerBarLabel}</span>
-        </div>
+        <Motion style={{ width: spring(percentage, presets.noWobble) }}>
+          {({ width }) =>
+            <div className="graph-bar" style={{ width: `${width}%` }}>
+              <span className="percentage">{innerBarLabel}</span>
+              <span className="count">{outerBarLabel}</span>
+            </div>
+          }
+        </Motion>
       </div>
     );
   }

@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { presets } from 'react-motion';
 import Collapse from 'react-collapse';
-import { showModal } from '../actions/userActions';
+import { showSignup } from '../actions/userActions';
 import { newPoll } from '../actions/pollActions';
 import { attemptJoinVote } from '../actions/voteActions';
 import Poll from './Poll';
@@ -35,7 +35,7 @@ class VotingPage extends Component {
   }
 
   onSignupClick() {
-    this.props.dispatch(showModal());
+    this.props.dispatch(showSignup());
   }
 
   onNewPoll() {

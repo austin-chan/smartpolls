@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { showModal, logout } from '../actions/userActions';
+import { showLogin, showSignup, logout } from '../actions/userActions';
 import { push } from 'react-router-redux';
 import { newPoll } from '../actions/pollActions';
 import '../styles/_Navigation.scss';
@@ -14,10 +14,10 @@ class Navigation extends Component {
 
   constructor() {
     super();
-    this.onShowModal = this.onShowModal.bind(this);
+    this.onShowLogin = this.onShowLogin.bind(this);
+    this.onShowSignup = this.onShowSignup.bind(this);
     this.onLogout = this.onLogout.bind(this);
     this.onNewPoll = this.onNewPoll.bind(this);
-    this.onMyPolls = this.onMyPolls.bind(this);
   }
 
   componentDidMount() {
@@ -27,33 +27,38 @@ class Navigation extends Component {
     this.props.dispatch(logout());
   }
 
-  onShowModal() {
-    this.props.dispatch(showModal());
+  onShowLogin() {
+    this.props.dispatch(showLogin());
+  }
+
+  onShowSignup() {
+    this.props.dispatch(showSignup());
   }
 
   onNewPoll() {
     this.props.dispatch(newPoll());
   }
 
-  onMyPolls() {
-    this.props.dispatch(push('/my-account'));
-  }
-
   renderNonUserButtons() {
     return (
       <div className="button-list">
-        <div className="clear-button button" onClick={this.onShowModal}>Login/Signup</div>
+        <div className="clear-button button" onClick={this.onShowLogin}>Log In</div>
+        <div className="clear-button button" onClick={this.onShowSignup}>Sign Up</div>
       </div>
     );
   }
 
   renderUserButtons() {
+    const pushMyPolls = () => this.props.dispatch(push('/my-polls'));
+    const pushMyAccount = () => this.props.dispatch(push('/my-account'));
+
     return (
       <div className="button-list">
         <div className="link-button button" onClick={this.onLogout}>Logout</div>
-        <div className="link-button button">My Account</div>
-        <div className="link-button button" onClick={this.onMyPolls}>My Polls</div>
-        <div className="clear-button button" onClick={this.onNewPoll}>New Poll</div>
+        <div className="link-button button" onClick={pushMyAccount}>My Account</div>
+        <div className="link-button button" onClick={pushMyPolls}>My Polls</div>
+        <div className="clear-button button" onClick={this.onNewPoll}>New Poll
+        </div>
       </div>
     );
   }

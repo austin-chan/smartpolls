@@ -4,6 +4,7 @@ import { TransitionMotion, spring, presets } from 'react-motion';
 import Navigation from './Navigation';
 import Login from './Login';
 import { resetPolls } from '../actions/pollActions';
+import { startTracking } from '../actions/userActions';
 import { initVoting } from '../actions/voteActions';
 import '../styles/_App.scss';
 
@@ -16,6 +17,7 @@ class App extends Component {
 
   componentWillMount() {
     this.props.dispatch(resetPolls());
+    this.props.dispatch(startTracking());
     this.props.dispatch(initVoting());
   }
 
@@ -39,13 +41,15 @@ class App extends Component {
   }
 
   render() {
+    const fullYear = (new Date().getFullYear());
+
     return (
       <div id="App">
         <Navigation />
         <div className="page-content">
           {this.props.children}
         </div>
-        <footer>Copyright © 2016 SmartPolls. All rights reserved.</footer>
+        <footer>Copyright © {fullYear} SmartPolls. All rights reserved.</footer>
         {this.renderLogin()}
       </div>
     );

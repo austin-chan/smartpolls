@@ -1,21 +1,25 @@
 @import 'include/mixin';
 @import 'include/responsive';
 
-#VotingPage {
-    @include media(">phone") {
-
-    }
-}
+#VotingPage {}
 
 .main {
     width: 423px;
     margin: 0 auto;
     background: #FBFBFB;
     padding: 38px 0;
+
+    @include media("<=tablet") {
+        width: auto;
+    }
 }
 
 .main-container {
     padding-bottom: 34px;
+
+    @include media("<=tablet") {
+        padding-bottom: 25px;
+    }
 }
 
 .annoucement {
@@ -26,10 +30,18 @@
     color: #656565;
     text-align: center;
 
+    @include media("<=tablet") {
+        font-size: 28px;
+    }
+
     .annoucement-subtext {
         font-size: 18px;
         color: #989898;
         margin-top: 8px;
+
+        @include media("<=tablet") {
+            font-size: 15px;
+        }
     }
 }
 
@@ -48,11 +60,21 @@
     cursor: pointer;
     @include no-select();
 
+    @include media("<=tablet") {
+        height: 56px;
+        width: auto;
+        margin: 14px auto;
+    }
+
     &:active, &.active {
         border: 1px solid #b9b9b9;
-        background-image: linear-gradient(-180deg, gainsboro 0%, #d4d4d4 100%);
+        background-image: linear-gradient(-180deg, #DCDCDC 0%, #d4d4d4 100%);
         box-shadow: 0px 0px 2px 0px #a7a7a7, inset 0px 3px 6px 0px rgba(163, 163, 163, 0.67);
         border-radius: 7px;
+
+        @include media("<=tablet") {
+            box-shadow: 0px 0px 1px 0px #a7a7a7, inset 0px 2px 4px 0px rgba(163, 163, 163, 0.67);
+        }
     }
 
     .candidate-name {
