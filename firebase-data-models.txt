@@ -1,17 +1,17 @@
-// smartpolls.firebaseio.com/poll/uid
-//  pollKey: a unique code
+// smartpolls.firebaseio.com/poll/pin/uid
 //  voteCount: number of votes
 //  voterCount: number of unique voters
+//  locked: true/false (true when there are no open questions, false otherwise)
 //  pid: unique poll identifier
 
-// smartpolls.firebaseio.com/question/pollid
-//  options: 'a-b-c-d-e', '1-2-3', 'chicken-pork-beef'
-//  results: '0-0-1-0-0', '0-1-0', '5-3-1'
+// smartpolls.firebaseio.com/question/pollid/qid
+//  options: 'a-b-c-d-e' (can be of length 2-26)
+//  results: '0-0-1-0-0' (length of options)
 //  locked: true/false
 //  qid: a unique identifier
 
 // smartpolls.firebaseio.com/user
-//  username: a-z0-9
+//  pin: 4-characters from a-z0-9
 //  uid: a unique identifier
 
 // Actions:
