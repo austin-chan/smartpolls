@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { showLogin, showSignup, logout } from '../actions/userActions';
 import { push } from 'react-router-redux';
-import { newPoll } from '../actions/pollActions';
+import { newPoll } from '../actions/userActions';
 import '../styles/_Navigation.scss';
 
 class Navigation extends Component {

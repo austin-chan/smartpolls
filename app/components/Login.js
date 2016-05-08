@@ -44,8 +44,7 @@ class Login extends Component {
     const password = findDOMNode(this.refs.password).value;
 
     if (this.props.isSignup) {
-      const name = findDOMNode(this.refs.name).value;
-      this.props.dispatch(attemptSignup(email, password, name));
+      this.props.dispatch(attemptSignup(email, password));
     } else {
       this.props.dispatch(attemptLogin(email, password));
     }
@@ -133,7 +132,7 @@ class Login extends Component {
           <h4>{title}</h4>
           {this.renderEmailField()}
           {this.renderPasswordField()}
-          {this.renderNameField()}
+          {/* this.renderNameField() */}
           <div className="bottom-area">
             <span className="vertical-aligner" />
             <span className="link">Forgot Password?</span>

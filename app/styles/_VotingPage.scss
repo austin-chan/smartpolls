@@ -1,114 +1,123 @@
 @import 'include/mixin';
 @import 'include/responsive';
 
-#VotingPage {}
+#VotingPage {
 
-.main {
-    width: 423px;
-    margin: 0 auto;
-    background: #FBFBFB;
-    padding: 38px 0;
-
-    @include media("<=tablet") {
-        width: auto;
-    }
-}
-
-.main-container {
-    padding-bottom: 34px;
-
-    @include media("<=tablet") {
-        padding-bottom: 25px;
-    }
-}
-
-.annoucement {
-    // margin: 35px 35px 75px 35px;
-    // padding: 55px;
-    // font-size: 45px;
-    font-size: 30px;
-    color: #656565;
-    text-align: center;
-
-    @include media("<=tablet") {
-        font-size: 28px;
-    }
-
-    .annoucement-subtext {
-        font-size: 18px;
-        color: #989898;
-        margin-top: 8px;
-
-        @include media("<=tablet") {
-            font-size: 15px;
-        }
-    }
-}
-
-.candidate {
-    position: relative;
-    margin: 17px auto;
-    width: 423px;
-    height: 60px;
-    overflow: hidden;
-    background-image: linear-gradient(-180deg, #fdfdfd 0%, #ededed 100%);
-    // border: 1px solid #e0e0e0;
-    border: 1px solid transparent;
-    box-shadow: 0px 0px 2px 0px #a7a7a7;
-    border-radius: 7px;
-    vertical-align: middle;
-    cursor: pointer;
-    @include no-select();
-
-    @include media("<=tablet") {
-        height: 56px;
-        width: auto;
-        margin: 14px auto;
-    }
-
-    &:active, &.active {
-        border: 1px solid #b9b9b9;
-        background-image: linear-gradient(-180deg, #DCDCDC 0%, #d4d4d4 100%);
-        box-shadow: 0px 0px 2px 0px #a7a7a7, inset 0px 3px 6px 0px rgba(163, 163, 163, 0.67);
-        border-radius: 7px;
-
-        @include media("<=tablet") {
-            box-shadow: 0px 0px 1px 0px #a7a7a7, inset 0px 2px 4px 0px rgba(163, 163, 163, 0.67);
-        }
-    }
-
-    .candidate-name {
-        display: inline-block;
-        vertical-align: middle;
-        margin-left: 26px;
-        font-size: 32px;
-        color: #717171;
-        padding-top: 5px;
-    }
-
-    .condidate-votes-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+    h2.title {
         text-align: center;
-        display: inline-block;
+        font-size: 25px;
+        color: #656565;
+        padding-top: 15px;
+        padding-bottom: 5px;
+    }
 
-        .candidate-votes {
+    .main {
+        width: 423px;
+        margin: 0 auto;
+        background: #FBFBFB;
+        padding: 38px 0;
+
+        @include media("<=tablet") {
+            width: auto;
+        }
+    }
+
+    .main-container {
+        padding-bottom: 34px;
+
+        @include media("<=tablet") {
+            padding-bottom: 25px;
+        }
+    }
+
+    .annoucement {
+        // margin: 35px 35px 75px 35px;
+        // padding: 55px;
+        // font-size: 45px;
+        font-size: 30px;
+        color: #656565;
+        text-align: center;
+
+        @include media("<=tablet") {
+            font-size: 28px;
+        }
+
+        .annoucement-subtext {
+            font-size: 18px;
+            color: #989898;
+            margin-top: 8px;
+
+            @include media("<=tablet") {
+                font-size: 15px;
+            }
+        }
+    }
+
+    .candidate {
+        position: relative;
+        margin: 17px auto;
+        width: 423px;
+        height: 60px;
+        overflow: hidden;
+        background-image: linear-gradient(-180deg, #fdfdfd 0%, #ededed 100%);
+        // border: 1px solid #e0e0e0;
+        border: 1px solid transparent;
+        box-shadow: 0px 0px 2px 0px #a7a7a7;
+        border-radius: 7px;
+        vertical-align: middle;
+        cursor: pointer;
+        @include no-select();
+
+        @include media("<=tablet") {
+            height: 56px;
+            width: auto;
+            margin: 14px auto;
+        }
+
+        &:active, &.active {
+            border: 1px solid #b9b9b9;
+            background-image: linear-gradient(-180deg, #DCDCDC 0%, #d4d4d4 100%);
+            box-shadow: 0px 0px 2px 0px #a7a7a7, inset 0px 3px 6px 0px rgba(163, 163, 163, 0.67);
+            border-radius: 7px;
+
+            @include media("<=tablet") {
+                box-shadow: 0px 0px 1px 0px #a7a7a7, inset 0px 2px 4px 0px rgba(163, 163, 163, 0.67);
+            }
+        }
+
+        .candidate-name {
             display: inline-block;
             vertical-align: middle;
-            font-size: 18px;
-            color: #929292;
+            margin-left: 26px;
+            font-size: 32px;
+            color: #717171;
+            padding-top: 5px;
         }
-    }
 
-    .candidate-progress-bar {
-        border-radius: 7px 0 0 7px;
-        position: absolute;
-        top: -1px;
-        bottom: -1px;
-        background: rgba(255, 107, 129, 0.12);
-        box-shadow: 0px 0px 2px 0px rgba(163, 30, 52, 0.36);
+        .condidate-votes-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            display: inline-block;
+
+            .candidate-votes {
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 18px;
+                color: #929292;
+            }
+        }
+
+        .candidate-progress-bar {
+            border-radius: 7px 0 0 7px;
+            position: absolute;
+            top: -1px;
+            bottom: -1px;
+            background: rgba(255, 107, 129, 0.12);
+            box-shadow: 0px 0px 2px 0px rgba(163, 30, 52, 0.36);
+        }
     }
 }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { presets } from 'react-motion';
 import Collapse from 'react-collapse';
 import { showSignup } from '../actions/userActions';
-import { newPoll } from '../actions/pollActions';
+import { newPoll } from '../actions/userActions';
 import { attemptJoinVote } from '../actions/voteActions';
 import Poll from './Poll';
 import '../styles/_HomePage.scss';
@@ -88,7 +88,7 @@ class VotingPage extends Component {
               {this.renderActionButton()}
             </div>
             <div className="right-side">
-              <Poll aCount={274} bCount={98} cCount={0} dCount={3} eCount={0} hideTotal />
+              <Poll options="a-b-c-d-e" results="274-98-0-3-0" hideTotal />
             </div>
           </div>
         </div>
@@ -98,7 +98,7 @@ class VotingPage extends Component {
               <h5 className="card-header">Join a Poll</h5>
               <div className="input-group">
                 <input type="text" className="standard-input session-code-input" ref="joinInput"
-                  placeholder="Enter Poll Session Code" onKeyPress={this.onVoteKeyPress}
+                  placeholder="Enter Poll PIN Code" onKeyPress={this.onVoteKeyPress}
                 />
                 <div className="standard-button button large join-button" onClick={this.onVoteJoin}>
                   Join

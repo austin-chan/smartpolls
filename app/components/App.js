@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { TransitionMotion, spring, presets } from 'react-motion';
 import Navigation from './Navigation';
 import Login from './Login';
-import { resetPolls } from '../actions/pollActions';
-import { startTracking } from '../actions/userActions';
-import { initVoting } from '../actions/voteActions';
+// import { resetPolls } from '../actions/pollActions';
+import { resetUser } from '../actions/userActions';
+// import { initVoting } from '../actions/voteActions';
 import '../styles/_App.scss';
 
 class App extends Component {
@@ -16,9 +16,9 @@ class App extends Component {
   };
 
   componentWillMount() {
-    this.props.dispatch(resetPolls());
-    this.props.dispatch(startTracking());
-    this.props.dispatch(initVoting());
+    this.props.dispatch(resetUser());
+    // this.props.dispatch(startTracking());
+    // this.props.dispatch(initVoting());
   }
 
   renderLogin() {

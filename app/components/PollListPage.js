@@ -2,18 +2,41 @@ import React, { Component, PropTypes } from 'react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import pluralize from 'pluralize';
+import baseRef from '../firebase.js';
+import { serverAgo } from '../util.js';
 import '../styles/_PollListPage.scss';
 
 class PollListPage extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    polls: PropTypes.object.isRequired,
-    awaitingInitialLoad: PropTypes.bool.isRequired,
+    pin: PropTypes.string,
   };
 
   constructor() {
     super();
+    this.state = { polls: {} };
     this.onPollClick = this.onPollClick.bind(this);
+    this.trackback = null;
+  }
+
+  // start downloading the list
+  componentWillMount() {
+    if (this.props.pin) {
+      this.trackback = baseRef.child(`poll/${this.props.pin}`).on('value', (data) => {
+        const polls = data.val();
+        this.setState({ polls });
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.pin !== prevProps.pin) {
+      this.componentWillMount();
+    }
+  }
+
+  componentWillUnmount() {
+    baseRef.child(`poll/${this.props.pin}`).off('value', this.trackback);
   }
 
   onPollClick(pollId) {
@@ -24,20 +47,17 @@ class PollListPage extends Component {
 
   renderPolls() {
     const pollList = [];
-    const { polls } = this.props;
 
-    Object.keys(polls).reverse().forEach((pollId) => {
-      const poll = polls[pollId];
-      const questionCount = Object.keys(poll.questionRefs).length;
+    Object.keys(this.state.polls).reverse().forEach((pollId) => {
+      const poll = this.state.polls[pollId];
 
       pollList.push(
         <div className="poll-item" key={pollId}>
-          <h5 className="poll-name" onClick={this.onPollClick(pollId)}>{poll.pollKey}</h5>
+          <h5 className="poll-name" onClick={this.onPollClick(pollId)}>{poll.title}</h5>
           <p className="poll-info">
-            Created a week ago ·&nbsp;
+            {serverAgo(poll.createdAt)} ·&nbsp;
             {poll.voterCount} {pluralize('voters', poll.voterCount)} ·&nbsp;
-            {poll.voteCount} {pluralize('votes', poll.voteCount)} ·&nbsp;
-            {questionCount} {pluralize('question', questionCount)}
+            {poll.voteCount} {pluralize('votes', poll.voteCount)}
           </p>
         </div>
       );
@@ -54,8 +74,6 @@ class PollListPage extends Component {
   }
 
   render() {
-    if (this.props.awaitingInitialLoad) return this.renderLoading();
-
     return (
       <div id="PollListPage">
         <div className="container">
@@ -73,8 +91,7 @@ class PollListPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    polls: state.poll.polls,
-    awaitingInitialLoad: state.poll.awaitingInitialLoad,
+    pin: state.user.pin,
   };
 }
 

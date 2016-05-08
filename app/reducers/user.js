@@ -16,7 +16,7 @@ const initialState = {
   showModal: false,
   error: null,
   uid: baseRef.getAuth() !== null ? baseRef.getAuth().uid : null,
-  name: null,
+  pin: null,
   awaitingAuthResponse: false,
 };
 
@@ -61,6 +61,7 @@ const user = (state = initialState, action) => {
         showModal: false,
         isUser: true,
         uid: action.uid,
+        pin: action.pin,
       });
     }
     case LOGOUT: {

@@ -1,31 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
-import {
-  changeName,
-  changePassword,
-} from '../actions/userActions';
 import '../styles/_AccountPage.scss';
 
 class AccountPage extends Component {
   static propTypes = {
-    name: PropTypes.string,
     dispatch: PropTypes.func.isRequired,
   };
 
   constructor() {
     super();
     this.state = {};
-    this.onSaveName = this.onSaveName.bind(this);
+ // this.onSaveName = this.onSaveName.bind(this);
     this.onSavePassword = this.onSavePassword.bind(this);
     this.onEnter = this.onEnter.bind(this);
   }
 
-  onSaveName() {
-    const name = findDOMNode(this.refs.nameInput).value;
-    if (name.length) this.props.dispatch(changeName(name));
-    else findDOMNode(this.refs.nameInput).value = this.props.name;
-  }
+  // onSaveName() {
+  //   const name = findDOMNode(this.refs.nameInput).value;
+  //   if (name.length) this.props.dispatch(changeName(name));
+  //   else findDOMNode(this.refs.nameInput).value = this.props.name;
+  // }
 
   onSavePassword() {
     const oldPass = findDOMNode(this.refs.oldPassInput).value;
@@ -56,10 +51,10 @@ class AccountPage extends Component {
   }
 
   render() {
-    const name = this.props.name;
+    // const name = this.props.name;
     let passMessage;
 
-    if (!name) return this.renderLoading();
+    // if (!name) return this.renderLoading();
 
     if (this.state.passwordMessage) {
       passMessage = this.state.passwordMessage;
@@ -71,7 +66,7 @@ class AccountPage extends Component {
         <div className="container">
           <div className="hero-card card clearfix">
             <h3>My Account</h3>
-            <div className="group">
+            {/*<div className="group">
               <h5>Name to Display to Voters (eg. {name}’s Poll)</h5>
               <div className="input-group">
                 <input type="text" className="standard-input session-code-input" ref="nameInput"
@@ -83,7 +78,7 @@ class AccountPage extends Component {
                 Save Name
               </div>
             </div>
-            <hr />
+            <hr />*/}
             <div className="group">
               <h5>Old Password</h5>
               <div className="input-group">
@@ -119,9 +114,7 @@ class AccountPage extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    name: state.user.name,
-  };
+  return {};
 }
 
 export default connect(mapStateToProps)(AccountPage);

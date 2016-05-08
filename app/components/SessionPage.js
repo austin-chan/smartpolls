@@ -1,119 +1,88 @@
 import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import pluralize from 'pluralize';
+import Collapse from 'react-collapse';
+import baseRef from '../firebase.js';
+import { presets } from 'react-motion';
 import Poll from './Poll';
-import { changePollKey, startTracking, stopTracking, lockQuestion,
-  newQuestion } from '../actions/pollActions';
+import { newQuestion } from '../actions/userActions';
 import '../styles/_SessionPage.scss';
 
 export default class SessionPage extends Component {
   static propTypes = {
     pollId: PropTypes.string,
-    polls: PropTypes.object.isRequired,
-    awaitingInitialLoad: PropTypes.bool.isRequired,
+    pin: PropTypes.string,
     dispatch: PropTypes.func.isRequired,
   };
 
   constructor() {
     super();
+    this.trackback = {};
     this.onActivateNewQuestion = this.onActivateNewQuestion.bind(this);
-    this.onChangePollKey = this.onChangePollKey.bind(this);
-    this.onLockQuestion = this.onLockQuestion.bind(this);
+    this.state = { poll: {}, questions: {} };
   }
 
+  // TODO: make more consistent
   componentWillMount() {
-    this.props.dispatch(startTracking(this.props.pollId));
+    if (this.props.pin) {
+      const obj = {};
+      obj[0] = baseRef.child(`question/${this.props.pollId}`).on('value', (data) => {
+        if (data.exists()) {
+          this.setState({ questions: data.val() });
+        } else {
+          this.setState({ questions: {} });
+        }
+      });
+
+      obj[1] = baseRef.child(`poll/${this.props.pin}/${this.props.pollId}`).on('value', (data) => {
+        const poll = data.val();
+
+        this.setState({ poll });
+      });
+
+      this.trackback[this.props.pollId] = obj;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.pollId !== nextProps.pollId) {
+    if (this.props.pin !== nextProps.pin || this.props.pollId !== nextProps.pollId) {
       this.componentWillUnmount();
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.pollId !== prevProps.pollId) {
+    if (this.props.pin !== prevProps.pin || this.props.pollId !== prevProps.pollId) {
       this.componentWillMount();
     }
   }
 
   componentWillUnmount() {
-    this.props.dispatch(stopTracking(this.props.pollId));
-  }
-
-  onChangePollKey() {
-    this.props.dispatch(changePollKey(this.props.pollId));
+    const obj = this.trackback[this.props.pollId];
+    if (obj) {
+      baseRef.child(`question/${this.props.pollId}`).off('value', obj[0]);
+      baseRef.child(`poll/${this.props.pin}/${this.props.pollId}`).off('value', obj[1]);
+    }
   }
 
   onActivateNewQuestion() {
-    const lastQuestionId = Object.keys(this.getPoll().questions).slice(-1)[0];
-    this.props.dispatch(lockQuestion(lastQuestionId));
-    this.props.dispatch(newQuestion(this.props.pollId));
-  }
-
-  onLockQuestion(questionId) {
-    return () => {
-      this.props.dispatch(lockQuestion(questionId));
-    };
-  }
-
-  getPoll() {
-    return this.props.polls[this.props.pollId];
-  }
-
-  isLoading() {
-    return this.props.awaitingInitialLoad || !this.getPoll().isPollLoaded ||
-      !this.getPoll().isQuestionsLoaded;
-  }
-
-  isPollValid() {
-    return !!this.getPoll();
-  }
-
-  renderLoading() {
-    return (
-      <div>
-      </div>
-    );
-  }
-
-  renderNotFound() {
-    return (
-      <div>
-        Not Found
-      </div>
-    );
+    const val = findDOMNode(this.refs.select).value;
+    this.props.dispatch(newQuestion(this.props.pollId, val));
   }
 
   renderQuestions() {
-    const questions = this.getPoll().questions;
+    const questions = this.state.questions;
     const questionList = [];
 
     Object.keys(questions).forEach((questionId, index) => {
       const question = questions[questionId];
-      const { aCount, bCount, cCount, dCount, eCount } = question;
-      let lockedLabel = 'Closed For Voting';
-      let lockButton;
-
-      if (!question.locked) {
-        lockedLabel = 'Open For Voting';
-        lockButton = (
-          <div className="standard-button button lock-button"
-            onClick={this.onLockQuestion(questionId)}
-          >
-            Close Voting & Reveal Results To Voters
-          </div>
-        );
-      }
 
       questionList.push(
         <div className="poll-card card" key={questionId}>
           <div className="top-bar">
             <h2 className="title">Question #{index + 1}</h2>
-            <span className="status">{lockedLabel}</span>
-            {lockButton}
           </div>
-          <Poll aCount={aCount} bCount={bCount} cCount={cCount} dCount={dCount} eCount={eCount} />
+          <Poll options={question.options} results={question.results} />
         </div>
       );
     });
@@ -122,14 +91,7 @@ export default class SessionPage extends Component {
   }
 
   render() {
-    // render loading page
-    if (this.isLoading()) return this.renderLoading();
-
-    // render no found poll page
-    if (!this.isPollValid()) return this.renderNotFound();
-
-    const poll = this.getPoll();
-    const pollKey = poll.pollKey;
+    const poll = this.state.poll;
 
     return (
       <div id="SessionPage">
@@ -138,11 +100,8 @@ export default class SessionPage extends Component {
             <div className="left-side side">
               <span className="vertical-aligner"></span>
               <div className="wrap">
-                <h5>Poll Code</h5>
-                <p className="session-code">{pollKey}</p>
-                <div className="button standard-button" onClick={this.onChangePollKey}>
-                  Change Poll Code
-                </div>
+                <h5>{poll.title}</h5>
+                <p className="session-code">Poll PIN code: {this.props.pin}</p>
               </div>
             </div>
             <div className="middle-side side">
@@ -151,7 +110,7 @@ export default class SessionPage extends Component {
                 <h5>To join the poll:</h5>
                 <div className="steps">
                   <p className="step">1. Navigate to smartpolls.co</p>
-                  <p className="step">2. Enter code {pollKey}</p>
+                  <p className="step">2. Enter code {this.props.pin}</p>
                 </div>
               </div>
             </div>
@@ -171,12 +130,23 @@ export default class SessionPage extends Component {
               </div>
             </div>
           </div>
-          {this.renderQuestions()}
-          <div id="new-poll-card" className="card">
-            <div className="standard-button large button" onClick={this.onActivateNewQuestion}>
-              Activate New Question
+          <Collapse isOpened springConfig={presets.gentle}>
+            {this.renderQuestions()}
+            <div id="new-poll-card" className="card">
+              <div className="top">
+                <span>Number of questions</span>
+                <select defaultValue="5" ref="select">
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div className="standard-button large button" onClick={this.onActivateNewQuestion}>
+                Add New Question
+              </div>
             </div>
-          </div>
+          </Collapse>
         </div>
       </div>
     );
@@ -185,9 +155,8 @@ export default class SessionPage extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
+    pin: state.user.pin,
     pollId: ownProps.params.pollId,
-    polls: state.poll.polls,
-    awaitingInitialLoad: state.poll.awaitingInitialLoad,
   };
 }
 
